@@ -1,64 +1,61 @@
-%define _use_internal_dependency_generator 0
-
 Summary: A database access API for perl
 Name: perl-DBI
 Version: 1.48
-Release: 1
-URL: http://search.cpan.org/~timb/DBI/
+Release: 2
+URL: http://dbi.perl.org/
 License: Artistic
 Group: Applications/Databases
 Source0: http://search.cpan.org/CPAN/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
-Source2: filter-requires-dbi.sh
+Source1: filter-requires-dbi.sh
 Patch0: perl-DBI-1.37-prever.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Requires: perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 BuildRequires: perl-Time-HiRes
 
-%description 
+%define __perl_requires %{SOURCE1}
 
+%description 
 DBI is a database access Application Programming Interface (API) for
 the Perl Language. The DBI API Specification defines a set of
 functions, variables and conventions that provide a consistent
 database interface independent of the actual database being used.
-
-# %%define __find_requires /usr/lib/rpm/find-requires.perl
-%define __find_requires %{SOURCE2}
 
 %prep
 %setup -q -n DBI-%{version} 
 %patch0 -p1
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" perl Makefile.PL  PREFIX=$RPM_BUILD_ROOT/usr INSTALLDIRS=vendor
+CFLAGS="$RPM_OPT_FLAGS" perl Makefile.PL PREFIX=$RPM_BUILD_ROOT%{_prefix} INSTALLDIRS=vendor
 make
-
-%clean 
-rm -rf $RPM_BUILD_ROOT
+make test
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install
+%makeinstall
+find $RPM_BUILD_ROOT \( -name perllocal.pod -o -name .packlist \) -exec rm -f {} \;
 
-[ -x /usr/lib/rpm/brp-compress ] && /usr/lib/rpm/brp-compress
+# Remove Win32 specific files and man pages to avoid unwanted dependencies
+rm -rf $RPM_BUILD_ROOT%{perl_vendorarch}/{Win32,DBI/W32ODBC.pm}
+rm -rf $RPM_BUILD_ROOT%{_mandir}/man?/{DBI::W32ODBC.3pm,Win32::DBIODBC.3pm}
 
-find $RPM_BUILD_ROOT \( -name perllocal.pod -o -name .packlist \) -exec rm -v {} \;
+%clean
+rm -rf $RPM_BUILD_ROOT
 
-find $RPM_BUILD_ROOT/usr -type f -print | \
-        sed "s@^$RPM_BUILD_ROOT@@g" | \
-        grep -v perllocal.pod | \
-        grep -v "\.packlist" > %{name}-%{version}-filelist
-if [ "$(cat %{name}-%{version}-filelist)X" = "X" ] ; then
-    echo "ERROR: EMPTY FILE LIST"
-    exit -1
-fi
-
-%files -f %{name}-%{version}-filelist
+%files
 %defattr(-,root,root)
-%dir %{_libdir}/perl5/vendor_perl/%(perl -MConfig -le 'print "$Config{version}/$Config{archname}"')/DBI
-%dir %{_libdir}/perl5/vendor_perl/%(perl -MConfig -le 'print "$Config{version}/$Config{archname}"')/auto/DBI
-
+%doc README
+%{_bindir}/dbipro*
+%{perl_vendorarch}/*.p*
+%{perl_vendorarch}/Bundle/
+%{perl_vendorarch}/DBD/
+%{perl_vendorarch}/DBI/
+%{perl_vendorarch}/auto/DBI/
+%{_mandir}/man?/*.gz
 
 %changelog
+* Fri Apr 01 2005 Robert Scheck <redhat@linuxnetz.de> 1.48-2
+- spec file cleanup (#153164)
+
 * Thu Mar 31 2005 Warren Togami <wtogami@redhat.com> 1.48-1
 - 1.48
 
