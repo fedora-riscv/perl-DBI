@@ -1,13 +1,14 @@
 Summary: A database access API for perl
 Name: perl-DBI
-Version: 1.18
+Version: 1.21
 Release: 1
-Copyright: distributable
+URL: http://dbi.symbolstone.org/
+License: Artistic
 Group: Applications/Databases
 Source: DBI-%{version}.tar.gz
-Url: http://www.cpan.org
+Source2: filter-requires-dbi.sh
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
-Requires: perl >= 5.6.0-3
+Requires: perl >= 5.6.1
 
 %description 
 
@@ -18,7 +19,8 @@ database interface independent of the actual database being used.
 
 # Provide perl-specific find-{provides,requires}.
 %define __find_provides /usr/lib/rpm/find-provides.perl
-%define __find_requires /usr/lib/rpm/find-requires.perl
+# %%define __find_requires /usr/lib/rpm/find-requires.perl
+%define __find_requires %{SOURCE2}
 
 %prep
 %setup -q -n DBI-%{version} 
@@ -49,6 +51,25 @@ rm -f $RPM_BUILD_ROOT/$installsitearch/auto/DBI/DBI.bs
 %{_mandir}/*/*
 
 %changelog
+* Fri Feb 22 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.21-1
+- 1.21
+
+* Fri Feb  8 2002 Chip Turner <cturner@redhat.com>
+- filter out "soft" dependencies: perl(RPC::PlClient) and perl(Win32::ODBC)
+
+* Thu Feb  7 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.201-2
+- Rebuild
+
+* Tue Jan 22 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.201-1
+- 1.201
+
+* Wed Jan 09 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
+* Tue Jan  8 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.20-1
+- 1.20
+- Proper URL
+
 * Sat Jun 23 2001 Trond Eivind Glomsrød <teg@redhat.com>
 - 1.18
 
