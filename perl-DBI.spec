@@ -2,15 +2,17 @@
 
 Summary: A database access API for perl
 Name: perl-DBI
-Version: 1.32
-Release: 5
+Version: 1.37
+Release: 1
 URL: http://dbi.perl.org/
 License: Artistic
 Group: Applications/Databases
 Source: DBI-%{version}.tar.gz
 Source2: filter-requires-dbi.sh
+Patch0: perl-DBI-1.37-prever.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Requires: perl >= 5.6.1
+BuildRequires: perl-Time-HiRes
 
 %description 
 
@@ -24,6 +26,7 @@ database interface independent of the actual database being used.
 
 %prep
 %setup -q -n DBI-%{version} 
+%patch0 -p1
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" perl Makefile.PL  PREFIX=$RPM_BUILD_ROOT/usr INSTALLDIRS=vendor
@@ -56,6 +59,12 @@ fi
 
 
 %changelog
+* Mon Jul  7 2003 Chip Turner <cturner@redhat.com> 1.37-1
+- upgrade to 1.37
+
+* Wed Apr  2 2003 Chip Turner <cturner@redhat.com> 1.32-6
+- add buildrequires on perl-Time-HiRes
+
 * Tue Feb 18 2003 Chip Turner <cturner@redhat.com>
 - update dependency filter to remove dependency on perl(Apache) that
 - crept in (#82927)
