@@ -3,7 +3,7 @@
 Summary: A database access API for perl
 Name: perl-DBI
 Version: 1.40
-Release: 5
+Release: 6
 URL: http://dbi.perl.org/
 License: Artistic
 Group: Applications/Databases
@@ -39,8 +39,6 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 make install
 
-[ -x /usr/lib/rpm/brp-compress ] && /usr/lib/rpm/brp-compress
-
 find $RPM_BUILD_ROOT \( -name perllocal.pod -o -name .packlist \) -exec rm -v {} \;
 
 find $RPM_BUILD_ROOT/usr -type f -print | \
@@ -59,6 +57,9 @@ fi
 
 
 %changelog
+* Wed Mar 30 2005 Warren Togami <wtogami@redhat.com>
+- remove brp-compress
+
 * Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
