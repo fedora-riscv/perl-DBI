@@ -1,7 +1,7 @@
 Summary: A database access API for perl
 Name: perl-DBI
 Version: 1.30
-Release: 1
+Release: 2
 URL: http://dbi.perl.org/
 License: Artistic
 Group: Applications/Databases
@@ -34,21 +34,26 @@ rm -rf $RPM_BUILD_ROOT
 
 %install
 rm -rf $RPM_BUILD_ROOT
-eval `perl '-V:installarchlib'`
-eval `perl '-V:installvendorarch'`
-mkdir -p $RPM_BUILD_ROOT/$installarchlib
-make  install
-rm -f $RPM_BUILD_ROOT/$installarchlib/perllocal.pod
-rm -f $RPM_BUILD_ROOT/$installvendorarch/auto/DBI/.packlist
-rm -f $RPM_BUILD_ROOT/$installvendorarch/auto/DBI/DBI.bs
+make install
 
+[ -x /usr/lib/rpm/brp-compress ] && /usr/lib/rpm/brp-compress
 
-%files 
+find $RPM_BUILD_ROOT \( -name perllocal.pod -o -name .packlist \) -exec rm -v {} \;
+
+find $RPM_BUILD_ROOT/usr -type f -print | \
+        sed "s@^$RPM_BUILD_ROOT@@g" | \
+        grep -v perllocal.pod | \
+        grep -v "\.packlist" > %{name}-%{version}-filelist
+if [ "$(cat %{name}-%{version}-filelist)X" = "X" ] ; then
+    echo "ERROR: EMPTY FILE LIST"
+    exit -1
+fi
+
+%files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
-%doc Changes README ToDo
-/usr/bin/*
-/usr/lib/perl5/*
-%{_mandir}/*/*
+%dir %{_libdir}/perl5/vendor_perl/%(perl -MConfig -le 'print "$Config{version}/$Config{archname}"')/DBI
+%dir %{_libdir}/perl5/vendor_perl/%(perl -MConfig -le 'print "$Config{version}/$Config{archname}"')/auto/DBI
+
 
 %changelog
 * Wed Aug  7 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.30-1
