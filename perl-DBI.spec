@@ -1,6 +1,6 @@
 Summary: A database access API for perl
 Name: perl-DBI
-Version: 1.16
+Version: 1.18
 Release: 1
 Copyright: distributable
 Group: Applications/Databases
@@ -49,6 +49,9 @@ rm -f $RPM_BUILD_ROOT/$installsitearch/auto/DBI/DBI.bs
 %{_mandir}/*/*
 
 %changelog
+* Sat Jun 23 2001 Trond Eivind Glomsrød <teg@redhat.com>
+- 1.18
+
 * Wed May 30 2001 Trond Eivind Glomsrød <teg@redhat.com>
 - 1.16
 - change group to Applications/Databases from Applications/CPAN
