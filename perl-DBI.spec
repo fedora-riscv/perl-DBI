@@ -1,10 +1,10 @@
 Summary: A database access API for perl
 Name: perl-DBI
-Version: 1.14
-Release: 10
+Version: 1.16
+Release: 1
 Copyright: distributable
-Group: Applications/CPAN
-Source: DBI-1.14.tar.gz
+Group: Applications/Databases
+Source: DBI-%{version}.tar.gz
 Url: http://www.cpan.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Requires: perl >= 5.6.0-3
@@ -43,16 +43,19 @@ rm -f $RPM_BUILD_ROOT/$installsitearch/auto/DBI/DBI.bs
 
 %files 
 %defattr(-,root,root)
-/usr/lib/perl5/site_perl/5.6.0/*/*.pm
-/usr/lib/perl5/site_perl/5.6.0/*/auto/DBI
-/usr/lib/perl5/site_perl/5.6.0/*/DBD
-/usr/lib/perl5/site_perl/5.6.0/*/DBI
-/usr/lib/perl5/site_perl/5.6.0/*/Bundle/DBI.pm
-/usr/lib/perl5/site_perl/5.6.0/*/Win32/*
+%doc Changes README ToDo
 /usr/bin/*
+/usr/lib/perl5/*
 %{_mandir}/*/*
 
 %changelog
+* Wed May 30 2001 Trond Eivind Glomsrød <teg@redhat.com>
+- 1.16
+- change group to Applications/Databases from Applications/CPAN
+
+* Tue May  1 2001 Trond Eivind Glomsrød <teg@redhat.com>
+- 1.15
+
 * Tue Feb 27 2001 Trond Eivind Glomsrød <teg@redhat.com>
 - Cleanups
 
