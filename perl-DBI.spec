@@ -2,16 +2,16 @@
 
 Summary: A database access API for perl
 Name: perl-DBI
-Version: 1.40
-Release: 6
-URL: http://dbi.perl.org/
+Version: 1.48
+Release: 1
+URL: http://search.cpan.org/~timb/DBI/
 License: Artistic
 Group: Applications/Databases
-Source: DBI-%{version}.tar.gz
+Source0: http://search.cpan.org/CPAN/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
 Source2: filter-requires-dbi.sh
 Patch0: perl-DBI-1.37-prever.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
-Requires: perl >= 5.6.1
+Requires: perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 BuildRequires: perl-Time-HiRes
 
 %description 
@@ -39,6 +39,8 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 make install
 
+[ -x /usr/lib/rpm/brp-compress ] && /usr/lib/rpm/brp-compress
+
 find $RPM_BUILD_ROOT \( -name perllocal.pod -o -name .packlist \) -exec rm -v {} \;
 
 find $RPM_BUILD_ROOT/usr -type f -print | \
@@ -57,8 +59,8 @@ fi
 
 
 %changelog
-* Wed Mar 30 2005 Warren Togami <wtogami@redhat.com>
-- remove brp-compress
+* Thu Mar 31 2005 Warren Togami <wtogami@redhat.com> 1.48-1
+- 1.48
 
 * Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
