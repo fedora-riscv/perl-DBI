@@ -1,7 +1,7 @@
 Summary: A database access API for perl
 Name: perl-DBI
 Version: 1.48
-Release: 2
+Release: 3
 URL: http://dbi.perl.org/
 License: Artistic
 Group: Applications/Databases
@@ -53,6 +53,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man?/*.gz
 
 %changelog
+* Mon Apr 04 2005 Warren Togami <wtogami@redhat.com> 1.48-3
+- filter perl(Apache) (#153673)
+
 * Fri Apr 01 2005 Robert Scheck <redhat@linuxnetz.de> 1.48-2
 - spec file cleanup (#153164)
 
