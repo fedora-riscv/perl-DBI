@@ -1,8 +1,8 @@
 Summary: A database access API for perl
 Name: perl-DBI
-Version: 1.21
+Version: 1.28
 Release: 1
-URL: http://dbi.symbolstone.org/
+URL: http://dbi.perl.org/
 License: Artistic
 Group: Applications/Databases
 Source: DBI-%{version}.tar.gz
@@ -26,7 +26,7 @@ database interface independent of the actual database being used.
 %setup -q -n DBI-%{version} 
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" perl Makefile.PL
+CFLAGS="$RPM_OPT_FLAGS" perl Makefile.PL  PREFIX=$RPM_BUILD_ROOT/usr INSTALLDIRS=vendor
 make
 
 %clean 
@@ -35,12 +35,12 @@ rm -rf $RPM_BUILD_ROOT
 %install
 rm -rf $RPM_BUILD_ROOT
 eval `perl '-V:installarchlib'`
-eval `perl '-V:installsitearch'`
+eval `perl '-V:installvendorarch'`
 mkdir -p $RPM_BUILD_ROOT/$installarchlib
-make PREFIX=$RPM_BUILD_ROOT/usr install
+make  install
 rm -f $RPM_BUILD_ROOT/$installarchlib/perllocal.pod
-rm -f $RPM_BUILD_ROOT/$installsitearch/auto/DBI/.packlist
-rm -f $RPM_BUILD_ROOT/$installsitearch/auto/DBI/DBI.bs
+rm -f $RPM_BUILD_ROOT/$installvendorarch/auto/DBI/.packlist
+rm -f $RPM_BUILD_ROOT/$installvendorarch/auto/DBI/DBI.bs
 
 
 %files 
@@ -51,6 +51,28 @@ rm -f $RPM_BUILD_ROOT/$installsitearch/auto/DBI/DBI.bs
 %{_mandir}/*/*
 
 %changelog
+* Tue Jun 25 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.28-1
+- 1.28
+- Building it also fixes #66304
+
+* Fri Jun 21 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
+* Wed Jun  5 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.23-2
+- Tweak dependency finder - filter out a dependency found within the 
+  doc section of a module
+
+* Tue Jun  4 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.23-1
+- 1.23
+- Some changes to integrate with new Perl
+- Update URL
+
+* Thu May 23 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
+* Tue May  7 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.21-2
+- Rebuild
+
 * Fri Feb 22 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.21-1
 - 1.21
 
