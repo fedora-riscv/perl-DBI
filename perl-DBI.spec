@@ -1,6 +1,6 @@
 Summary: A database access API for perl
 Name: perl-DBI
-Version: 1.28
+Version: 1.30
 Release: 1
 URL: http://dbi.perl.org/
 License: Artistic
@@ -51,6 +51,9 @@ rm -f $RPM_BUILD_ROOT/$installvendorarch/auto/DBI/DBI.bs
 %{_mandir}/*/*
 
 %changelog
+* Wed Aug  7 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.30-1
+- 1.30. 
+
 * Tue Jun 25 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.28-1
 - 1.28
 - Building it also fixes #66304
