@@ -1,7 +1,9 @@
+%define _use_internal_dependency_generator 0
+
 Summary: A database access API for perl
 Name: perl-DBI
-Version: 1.30
-Release: 2
+Version: 1.32
+Release: 5
 URL: http://dbi.perl.org/
 License: Artistic
 Group: Applications/Databases
@@ -17,8 +19,6 @@ the Perl Language. The DBI API Specification defines a set of
 functions, variables and conventions that provide a consistent
 database interface independent of the actual database being used.
 
-# Provide perl-specific find-{provides,requires}.
-%define __find_provides /usr/lib/rpm/find-provides.perl
 # %%define __find_requires /usr/lib/rpm/find-requires.perl
 %define __find_requires %{SOURCE2}
 
@@ -56,6 +56,19 @@ fi
 
 
 %changelog
+* Tue Feb 18 2003 Chip Turner <cturner@redhat.com>
+- update dependency filter to remove dependency on perl(Apache) that
+- crept in (#82927)
+
+* Mon Jan 27 2003 Chip Turner <cturner@redhat.com>
+- version bump and rebuild
+
+* Sat Dec 14 2002 Chip Turner <cturner@redhat.com>
+- don't use rpm internal dep generator
+
+* Wed Nov 20 2002 Chip Turner <cturner@redhat.com>
+- rebuild
+
 * Wed Aug  7 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.30-1
 - 1.30. 
 
