@@ -1,16 +1,17 @@
-Summary: A database access API for perl
-Name: perl-DBI
-Version: 1.48
-Release: 3
-URL: http://dbi.perl.org/
-License: Artistic
-Group: Applications/Databases
-Source0: http://search.cpan.org/CPAN/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
-Source1: filter-requires-dbi.sh
-Patch0: perl-DBI-1.37-prever.patch
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
-Requires: perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
-BuildRequires: perl-Time-HiRes
+Name:           perl-DBI
+Version:        1.48
+Release:        4
+Summary:        A database access API for perl
+
+Group:          Development/Libraries
+License:        GPL or Artistic
+URL:            http://dbi.perl.org/
+Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
+Source1:        filter-requires-dbi.sh
+Patch0:         perl-DBI-1.37-prever.patch
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Requires:  perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 %define __perl_requires %{SOURCE1}
 
@@ -20,39 +21,56 @@ the Perl Language. The DBI API Specification defines a set of
 functions, variables and conventions that provide a consistent
 database interface independent of the actual database being used.
 
+
 %prep
 %setup -q -n DBI-%{version} 
 %patch0 -p1
+chmod 644 ex/*
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" perl Makefile.PL PREFIX=$RPM_BUILD_ROOT%{_prefix} INSTALLDIRS=vendor
-make
-make test
+CFLAGS="$RPM_OPT_FLAGS" %{__perl} Makefile.PL INSTALLDIRS=vendor
+make %{?_smp_mflags} OPTIMIZE="$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%makeinstall
-find $RPM_BUILD_ROOT \( -name perllocal.pod -o -name .packlist \) -exec rm -f {} \;
+make pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT
+find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} ';'
+find $RPM_BUILD_ROOT -type f -name '*.bs' -empty -exec rm -f {} ';'
+find $RPM_BUILD_ROOT -type d -depth -exec rmdir {} 2>/dev/null ';'
+chmod -R u+w $RPM_BUILD_ROOT/*
 
 # Remove Win32 specific files and man pages to avoid unwanted dependencies
 rm -rf $RPM_BUILD_ROOT%{perl_vendorarch}/{Win32,DBI/W32ODBC.pm}
-rm -rf $RPM_BUILD_ROOT%{_mandir}/man?/{DBI::W32ODBC.3pm,Win32::DBIODBC.3pm}
+rm -f $RPM_BUILD_ROOT%{_mandir}/man3/{DBI::W32ODBC.3pm,Win32::DBIODBC.3pm}
+
+%check || :
+make test
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+
 %files
-%defattr(-,root,root)
-%doc README
+%defattr(-,root,root,-)
+%doc README ex/
 %{_bindir}/dbipro*
 %{perl_vendorarch}/*.p*
 %{perl_vendorarch}/Bundle/
 %{perl_vendorarch}/DBD/
 %{perl_vendorarch}/DBI/
 %{perl_vendorarch}/auto/DBI/
-%{_mandir}/man?/*.gz
+%{_mandir}/man1/*.1*
+%{_mandir}/man3/*.3*
+
 
 %changelog
+* Wed Apr 13 2005 Jose Pedro Oliveira <jpo@di.uminho.pt> - 1.48-4
+- (#154762)
+- License information: GPL or Artistic
+- Removed the Time::HiRes building requirement (see Changes)
+- Removed the empty .bs file
+- Corrected file permissions
+
 * Mon Apr 04 2005 Warren Togami <wtogami@redhat.com> 1.48-3
 - filter perl(Apache) (#153673)
 
