@@ -1,6 +1,6 @@
 Name:           perl-DBI
 Version:        1.48
-Release: 4.1
+Release: 4.1.1
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
@@ -64,6 +64,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Dec 16 2005 Jesse Keating <jkeating@redhat.com>
+- rebuilt for new gcc
+
 * Fri Dec 16 2005 Jesse Keating <jkeating@redhat.com>
 - rebuilt for new gcj
 
