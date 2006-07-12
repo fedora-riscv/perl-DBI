@@ -1,6 +1,6 @@
 Name:           perl-DBI
 Version:        1.50
-Release: 	2.2.1
+Release: 	3
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
@@ -64,7 +64,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - sh: line 0: fg: no job control
+* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 1.50-3
 - rebuild
 
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 1.50-2.2
