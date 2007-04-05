@@ -1,6 +1,6 @@
 Name:           perl-DBI
 Version:        1.53
-Release: 	1%{?dist}
+Release:        1%{?dist}
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
@@ -69,7 +69,7 @@ rm -rf $RPM_BUILD_ROOT
 
 * Thu Aug 24 2006 Robin Norwood <rnorwood@redhat.com> - 1.52-1
 - Upgrade to 1.52 for bug #202310
-	
+        
 * Mon Jul 17 2006 Jason Vas Dias <jvdias@redhat.com> - 1.51-1
 - Upgrade to 1.51
 
@@ -141,21 +141,21 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Nov 20 2002 Chip Turner <cturner@redhat.com>
 - rebuild
 
-* Wed Aug  7 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.30-1
+* Wed Aug  7 2002 Trond Eivind GlomsrÃ¸d <teg@redhat.com> 1.30-1
 - 1.30. 
 
-* Tue Jun 25 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.28-1
+* Tue Jun 25 2002 Trond Eivind GlomsrÃ¸d <teg@redhat.com> 1.28-1
 - 1.28
 - Building it also fixes #66304
 
 * Fri Jun 21 2002 Tim Powers <timp@redhat.com>
 - automated rebuild
 
-* Wed Jun  5 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.23-2
+* Wed Jun  5 2002 Trond Eivind GlomsrÃ¸d <teg@redhat.com> 1.23-2
 - Tweak dependency finder - filter out a dependency found within the 
   doc section of a module
 
-* Tue Jun  4 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.23-1
+* Tue Jun  4 2002 Trond Eivind GlomsrÃ¸d <teg@redhat.com> 1.23-1
 - 1.23
 - Some changes to integrate with new Perl
 - Update URL
@@ -163,42 +163,42 @@ rm -rf $RPM_BUILD_ROOT
 * Thu May 23 2002 Tim Powers <timp@redhat.com>
 - automated rebuild
 
-* Tue May  7 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.21-2
+* Tue May  7 2002 Trond Eivind GlomsrÃ¸d <teg@redhat.com> 1.21-2
 - Rebuild
 
-* Fri Feb 22 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.21-1
+* Fri Feb 22 2002 Trond Eivind GlomsrÃ¸d <teg@redhat.com> 1.21-1
 - 1.21
 
 * Fri Feb  8 2002 Chip Turner <cturner@redhat.com>
 - filter out "soft" dependencies: perl(RPC::PlClient) and perl(Win32::ODBC)
 
-* Thu Feb  7 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.201-2
+* Thu Feb  7 2002 Trond Eivind GlomsrÃ¸d <teg@redhat.com> 1.201-2
 - Rebuild
 
-* Tue Jan 22 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.201-1
+* Tue Jan 22 2002 Trond Eivind GlomsrÃ¸d <teg@redhat.com> 1.201-1
 - 1.201
 
 * Wed Jan 09 2002 Tim Powers <timp@redhat.com>
 - automated rebuild
 
-* Tue Jan  8 2002 Trond Eivind Glomsrød <teg@redhat.com> 1.20-1
+* Tue Jan  8 2002 Trond Eivind GlomsrÃ¸d <teg@redhat.com> 1.20-1
 - 1.20
 - Proper URL
 
-* Sat Jun 23 2001 Trond Eivind Glomsrød <teg@redhat.com>
+* Sat Jun 23 2001 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - 1.18
 
-* Wed May 30 2001 Trond Eivind Glomsrød <teg@redhat.com>
+* Wed May 30 2001 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - 1.16
 - change group to Applications/Databases from Applications/CPAN
 
-* Tue May  1 2001 Trond Eivind Glomsrød <teg@redhat.com>
+* Tue May  1 2001 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - 1.15
 
-* Tue Feb 27 2001 Trond Eivind Glomsrød <teg@redhat.com>
+* Tue Feb 27 2001 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - Cleanups
 
-* Thu Nov 30 2000 Trond Eivind Glomsrød <teg@redhat.com>
+* Thu Nov 30 2000 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - build for main distribution
 - use %%{_tmppath}
 - change name of specfile
