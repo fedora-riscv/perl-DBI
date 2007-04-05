@@ -1,6 +1,6 @@
 Name:           perl-DBI
 Version:        1.53
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
