@@ -1,19 +1,16 @@
 Name:           perl-DBI
-Version:        1.53
-Release:        2%{?dist}
+Version:        1.56
+Release:        1%{?dist}
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
 License:        GPL or Artistic
 URL:            http://dbi.perl.org/
 Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
-Source1:        filter-requires-dbi.sh
-Patch0:         perl-DBI-1.37-prever.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildRequires:  perl, perl(ExtUtils::MakeMaker), perl(Test::Pod)
 Requires:  perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
-
-%define __perl_requires %{SOURCE1}
 
 %description 
 DBI is a database access Application Programming Interface (API) for
@@ -24,12 +21,21 @@ database interface independent of the actual database being used.
 
 %prep
 %setup -q -n DBI-%{version} 
-%patch0 -p1
 chmod 644 ex/*
 
+# Filter unwanted Requires:
+cat << EOF > %{name}-req
+#!/bin/sh
+%{__perl_requires} $* |\
+  sed -e '/perl(RPC::/d'
+EOF
+
+%define __perl_requires %{_builddir}/DBI-%{version}/%{name}-req
+chmod +x %{__perl_requires}
+
 %build
-CFLAGS="$RPM_OPT_FLAGS" %{__perl} Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags} OPTIMIZE="$RPM_OPT_FLAGS"
+%{__perl} Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS"
+make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -43,7 +49,15 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 rm -rf $RPM_BUILD_ROOT%{perl_vendorarch}/{Win32,DBI/W32ODBC.pm}
 rm -f $RPM_BUILD_ROOT%{_mandir}/man3/{DBI::W32ODBC.3pm,Win32::DBIODBC.3pm}
 
-%check || :
+# This particular man page is not UTF8 for some reason
+pushd $RPM_BUILD_ROOT%{_mandir}/man3/
+/usr/bin/iconv -f iso8859-1 -t utf-8 DBD::Gofer.3pm > DBD::Gofer.3pm.conv && /bin/mv -f DBD::Gofer.3pm.conv DBD::Gofer.3pm
+popd
+
+perl -pi -e 's"#!perl -w"#!/usr/bin/perl"' $RPM_BUILD_ROOT%{perl_vendorarch}/goferperf.pl
+
+
+%check
 make test
 
 %clean
@@ -54,6 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc README ex/
 %{_bindir}/dbipro*
+%{_bindir}/dbilogstrip
 %{perl_vendorarch}/*.p*
 %{perl_vendorarch}/Bundle/
 %{perl_vendorarch}/DBD/
@@ -64,6 +79,13 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jun 07 2007 Robin Norwood <rnorwood@redhat.com> - 1.56-1
+- Update to latest CPAN version: 1.56
+- Move the filter requires step into %%prep
+- Remove very old patch (for perl 5.8.1)
+- Fix a couple of rpmlint issues (non-UTF8 manpage and script with
+  incorrect shebang line
+
 * Sat Dec 02 2006 Robin Norwood <rnorwood@redhat.com> - 1.53-1
 - Upgrade to latest CPAN version: 1.53
 
