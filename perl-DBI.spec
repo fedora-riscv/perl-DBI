@@ -1,10 +1,10 @@
 Name:           perl-DBI
-Version:        1.56
+Version:        1.58
 Release:        1%{?dist}
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
-License:        GPL or Artistic
+License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
 Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -79,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Aug 13 2007 Robin Norwood <rnorwood@redhat.com> - 1.58-1
+- Update to latest CPAN version: 1.58
+
 * Thu Jun 07 2007 Robin Norwood <rnorwood@redhat.com> - 1.56-1
 - Update to latest CPAN version: 1.56
 - Move the filter requires step into %%prep
