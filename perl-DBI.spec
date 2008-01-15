@@ -1,6 +1,6 @@
 Name:           perl-DBI
 Version:        1.601
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
@@ -86,6 +86,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 15 2008 Tom "spot" Callaway <tcallawa@redhat.com> - 1.601-2
+- rebuild for new perl
+
 * Fri Oct 26 2007 Robin Norwood <rnorwood@redhat.com> - 1.601-1
 - Update to latest CPAN version: 1.601
 - Fix some issues from package review:
