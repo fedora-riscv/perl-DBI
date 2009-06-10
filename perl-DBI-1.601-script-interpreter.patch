@@ -1,8 +1,0 @@
---- DBI-1.601/dbixs_rev.pl	Mon Jul 16 07:04:58 2007
-+++ DBI-1.601/dbixs_rev.pl	Tue Nov 13 21:06:15 2007
-@@ -1,4 +1,4 @@
--#!perl -w
-+#!/usr/bin/perl -w
- use strict;
- 
- my $dbixs_rev_file = "dbixs_rev.h";

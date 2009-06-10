@@ -1,13 +1,12 @@
 Name:           perl-DBI
-Version:        1.607
-Release:        2%{?dist}
+Version:        1.609
+Release:        1%{?dist}
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
 Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
-Patch0:         perl-DBI-1.601-script-interpreter.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl(ExtUtils::MakeMaker), perl(Test::Pod)
@@ -23,9 +22,12 @@ database interface independent of the actual database being used.
 
 %prep
 %setup -q -n DBI-%{version} 
-%patch0 -p1
+
+iconv -f iso8859-1 -t utf-8 lib/DBD/Gofer.pm >lib/DBD/Gofer.pm.new &&
+  mv lib/DBD/Gofer.pm{.new,}
 
 chmod 644 ex/*
+chmod 744 dbixs_rev.pl
 
 # Filter unwanted Requires:
 cat << EOF > %{name}-req
@@ -37,10 +39,8 @@ EOF
 %define __perl_requires %{_builddir}/DBI-%{version}/%{name}-req
 chmod +x %{__perl_requires}
 
-chmod 744 dbixs_rev.pl
-
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS"
+perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS"
 make %{?_smp_mflags}
 
 
@@ -53,15 +53,11 @@ find $RPM_BUILD_ROOT -type d -depth -exec rmdir {} 2>/dev/null ';'
 chmod -R u+w $RPM_BUILD_ROOT/*
 
 # Remove Win32 specific files and man pages to avoid unwanted dependencies
-rm -rf $RPM_BUILD_ROOT%{perl_vendorarch}/{Win32,DBI/W32ODBC.pm}
-rm -f $RPM_BUILD_ROOT%{_mandir}/man3/{DBI::W32ODBC.3pm,Win32::DBIODBC.3pm}
+rm -rf $RPM_BUILD_ROOT%{perl_vendorarch}/{Win32,DBI/W32ODBC.pm} \
+	 $RPM_BUILD_ROOT%{_mandir}/man3/{DBI::W32,Win32::DBI}ODBC.3pm
 
-# This particular man page is not UTF8 for some reason
-pushd $RPM_BUILD_ROOT%{_mandir}/man3/
-/usr/bin/iconv -f iso8859-1 -t utf-8 DBD::Gofer.3pm > DBD::Gofer.3pm.conv && /bin/mv -f DBD::Gofer.3pm.conv DBD::Gofer.3pm
-popd
-
-perl -pi -e 's"#!perl -w"#!/usr/bin/perl"' $RPM_BUILD_ROOT%{perl_vendorarch}/goferperf.pl
+perl -pi -e 's"#!perl -w"#!/usr/bin/perl -w"' \
+	$RPM_BUILD_ROOT%{perl_vendorarch}/{goferperf,dbixs_rev}.pl
 
 
 %check
@@ -86,6 +82,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jun 10 2009 Stepan Kasal <skasal@redhat.com> - 1.609-1
+- new upstream version
+- drop unneeded build patch
+- move the iconv to convert the source
+
 * Thu Feb 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.607-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
