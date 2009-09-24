@@ -1,6 +1,6 @@
 Name:           perl-DBI
 Version:        1.609
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
@@ -12,6 +12,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl(ExtUtils::MakeMaker), perl(Test::Pod)
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
+# The automated scripts are not able to get the version for this:
+Provides:	perl(DBI) = %{version}
 
 %description 
 DBI is a database access Application Programming Interface (API) for
@@ -82,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 24 2009 Stepan Kasal <skasal@redhat.com> - 1.609-3
+- provide versioned perl(DBI)
+
 * Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.609-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
