@@ -1,6 +1,6 @@
 Name:           perl-DBI
-Version:        1.609
-Release:        5%{?dist}
+Version:        1.611
+Release:        1%{?dist}
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
@@ -9,11 +9,15 @@ URL:            http://dbi.perl.org/
 Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  perl(ExtUtils::MakeMaker), perl(Test::Pod)
+BuildRequires:  perl(ExtUtils::MakeMaker)
+# perl(RPC::PlClient) for tests only, it's optional at compile and run time
+BuildRequires:  perl(RPC::PlClient) >= 0.2000
+BuildRequires:  perl(Test::Pod)
+BuildRequires:  perl(Test::Simple) >= 0.84
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 # The automated scripts are not able to get the version for this:
-Provides:	perl(DBI) = %{version}
+Provides:       perl(DBI) = %{version}
 
 %description 
 DBI is a database access Application Programming Interface (API) for
@@ -56,10 +60,10 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 
 # Remove Win32 specific files and man pages to avoid unwanted dependencies
 rm -rf $RPM_BUILD_ROOT%{perl_vendorarch}/{Win32,DBI/W32ODBC.pm} \
-	 $RPM_BUILD_ROOT%{_mandir}/man3/{DBI::W32,Win32::DBI}ODBC.3pm
+    $RPM_BUILD_ROOT%{_mandir}/man3/{DBI::W32,Win32::DBI}ODBC.3pm
 
 perl -pi -e 's"#!perl -w"#!/usr/bin/perl -w"' \
-	$RPM_BUILD_ROOT%{perl_vendorarch}/{goferperf,dbixs_rev}.pl
+    $RPM_BUILD_ROOT%{perl_vendorarch}/{goferperf,dbixs_rev}.pl
 
 
 %check
@@ -84,6 +88,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Jun  7 2010 Petr Pisar <ppisar@redhat.com> - 1.611-1
+- 1.611 bump
+- Add BuildRequires perl(RPC::PlClient) to cover some optional tests
+- Fix indentation
+
 * Fri Apr 30 2010 Marcela Maslanova <mmaslano@redhat.com> - 1.609-5
 - Mass rebuild with perl-5.12.0
 
