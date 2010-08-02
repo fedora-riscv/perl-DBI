@@ -1,5 +1,5 @@
 Name:           perl-DBI
-Version:        1.611
+Version:        1.613
 Release:        1%{?dist}
 Summary:        A database access API for perl
 
@@ -13,7 +13,7 @@ BuildRequires:  perl(ExtUtils::MakeMaker)
 # perl(RPC::PlClient) for tests only, it's optional at compile and run time
 BuildRequires:  perl(RPC::PlClient) >= 0.2000
 BuildRequires:  perl(Test::Pod)
-BuildRequires:  perl(Test::Simple) >= 0.84
+BuildRequires:  perl(Test::Simple) >= 0.90
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 # The automated scripts are not able to get the version for this:
@@ -88,6 +88,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Aug  2 2010 Petr Sabata <psabata@redhat.com> - 1.613-1
+- 1.613 version bump
+
 * Mon Jun  7 2010 Petr Pisar <ppisar@redhat.com> - 1.611-1
 - 1.611 bump
 - Add BuildRequires perl(RPC::PlClient) to cover some optional tests
