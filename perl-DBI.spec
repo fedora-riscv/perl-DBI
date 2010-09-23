@@ -1,5 +1,5 @@
 Name:           perl-DBI
-Version:        1.614
+Version:        1.615
 Release:        1%{?dist}
 Summary:        A database access API for perl
 
@@ -88,6 +88,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Sep 23 2010 Petr Sabata <psabata@redhat.com> - 1.615-1
+- 1.615 version bump
+
 * Mon Sep 20 2010 Petr Sabata <psabata@redhat.com> - 1.614-1
 - 1.614 version bump
 
