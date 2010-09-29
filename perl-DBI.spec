@@ -1,6 +1,6 @@
 Name:           perl-DBI
 Version:        1.615
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
@@ -88,6 +88,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Sep 29 2010 jkeating - 1.615-2
+- Rebuilt for gcc bug 634757
+
 * Thu Sep 23 2010 Petr Sabata <psabata@redhat.com> - 1.615-1
 - 1.615 version bump
 
