@@ -1,6 +1,6 @@
 Name:           perl-DBI
 Version:        1.616
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
@@ -88,6 +88,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.616-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Tue Jan  4 2011 Petr Sabata <psabata@redhat.com> - 1.616-1
 - 1.616 version bump
 
