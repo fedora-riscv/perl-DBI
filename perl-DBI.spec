@@ -1,6 +1,9 @@
+# Filter unwanted dependencies (rpmbuild >= 4.9)
+%global __requires_exclude perl\\(RPC::
+
 Name:           perl-DBI
 Version:        1.616
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
@@ -35,15 +38,6 @@ iconv -f iso8859-1 -t utf-8 lib/DBD/Gofer.pm >lib/DBD/Gofer.pm.new &&
 chmod 644 ex/*
 chmod 744 dbixs_rev.pl
 
-# Filter unwanted Requires:
-cat << EOF > %{name}-req
-#!/bin/sh
-%{__perl_requires} $* |\
-  sed -e '/perl(RPC::/d'
-EOF
-
-%define __perl_requires %{_builddir}/DBI-%{version}/%{name}-req
-chmod +x %{__perl_requires}
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS"
@@ -88,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Mar 15 2011 Ville SkyttÃ¤ <ville.skytta@iki.fi> - 1.616-3
+- Adapt dependency filtering for rpmbuild >= 4.9.
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.616-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
