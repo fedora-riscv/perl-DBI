@@ -1,9 +1,10 @@
 # Filter unwanted dependencies (rpmbuild >= 4.9)
 %global __requires_exclude perl\\(RPC::
+%global __provides_exclude (DBI\.so|perl\\(DBI\\))
 
 Name:           perl-DBI
 Version:        1.616
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
@@ -18,7 +19,6 @@ BuildRequires:  perl(RPC::PlClient) >= 0.2000
 BuildRequires:  perl(Test::Pod)
 BuildRequires:  perl(Test::Simple) >= 0.90
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
-
 # The automated scripts are not able to get the version for this:
 Provides:       perl(DBI) = %{version}
 
@@ -82,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Apr 13 2011 Marcela Mašláňová <mmaslano@redhat.com> - 1.616-4
+- filter DBI.so and unversioned DBI
+
 * Tue Mar 15 2011 Ville SkyttÃ¤ <ville.skytta@iki.fi> - 1.616-3
 - Adapt dependency filtering for rpmbuild >= 4.9.
 
