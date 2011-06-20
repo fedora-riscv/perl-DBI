@@ -3,7 +3,7 @@
 
 Name:           perl-DBI
 Version:        1.616
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A database access API for perl
 
 Group:          Development/Libraries
@@ -82,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jun 21 2011 Marcela Mašláňová <mmaslano@redhat.com> - 1.616-4
+- Perl mass rebuild
+
 * Tue Mar 15 2011 Ville SkyttÃ¤ <ville.skytta@iki.fi> - 1.616-3
 - Adapt dependency filtering for rpmbuild >= 4.9.
 
