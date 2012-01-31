@@ -2,25 +2,42 @@
 %global __requires_exclude perl\\(RPC::
 
 Name:           perl-DBI
-Version:        1.616
-Release:        5%{?dist}
+Version:        1.617
+Release:        1%{?dist}
 Summary:        A database access API for perl
-
 Group:          Development/Libraries
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
 Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
+BuildRequires:  perl(base)
+BuildRequires:  perl(constant)
+BuildRequires:  perl(lib)
+BuildRequires:  perl(threads)
+BuildRequires:  perl(Carp)
+BuildRequires:  perl(Coro)
+BuildRequires:  perl(Coro::Handle)
+BuildRequires:  perl(Coro::Select)
+BuildRequires:  perl(Cwd)
+BuildRequires:  perl(Data::Dumper)
+BuildRequires:  perl(Encode)
+BuildRequires:  perl(Exporter)
 BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(File::Path)
+BuildRequires:  perl(File::Spec)
+BuildRequires:  perl(Getopt::Long)
+BuildRequires:  perl(IO::File)
+BuildRequires:  perl(IO::Select)
+BuildRequires:  perl(Math::BigInt)
+BuildRequires:  perl(Net::Daemon::Test)
 # perl(RPC::PlClient) for tests only, it's optional at compile and run time
 BuildRequires:  perl(RPC::PlClient) >= 0.2000
-BuildRequires:  perl(Test::Pod)
+BuildRequires:  perl(RPC::PlServer)
+BuildRequires:  perl(Scalar::Util)
+BuildRequires:  perl(Storable)
+BuildRequires:  perl(Test::More)
+BuildRequires:  perl(Test::Pod) >= 1.00
 BuildRequires:  perl(Test::Simple) >= 0.90
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
-
-# The automated scripts are not able to get the version for this:
-Provides:       perl(DBI) = %{version}
 
 %description 
 DBI is a database access Application Programming Interface (API) for
@@ -28,47 +45,34 @@ the Perl Language. The DBI API Specification defines a set of
 functions, variables and conventions that provide a consistent
 database interface independent of the actual database being used.
 
-
 %prep
 %setup -q -n DBI-%{version} 
-
 iconv -f iso8859-1 -t utf-8 lib/DBD/Gofer.pm >lib/DBD/Gofer.pm.new &&
   mv lib/DBD/Gofer.pm{.new,}
-
 chmod 644 ex/*
 chmod 744 dbixs_rev.pl
-
+sed -i 's?#!perl?#!%{__perl}?' ex/corogofer.pl
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS"
+perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}"
 make %{?_smp_mflags}
 
-
 %install
-rm -rf $RPM_BUILD_ROOT
-make pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} ';'
-find $RPM_BUILD_ROOT -type f -name '*.bs' -empty -exec rm -f {} ';'
-find $RPM_BUILD_ROOT -type d -depth -exec rmdir {} 2>/dev/null ';'
-chmod -R u+w $RPM_BUILD_ROOT/*
-
+make pure_install PERL_INSTALL_ROOT=%{buildroot}
+find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
+find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
+find %{buildroot} -type d -depth -exec rmdir {} 2>/dev/null ';'
+chmod -R u+w %{buildroot}/*
 # Remove Win32 specific files and man pages to avoid unwanted dependencies
-rm -rf $RPM_BUILD_ROOT%{perl_vendorarch}/{Win32,DBI/W32ODBC.pm} \
-    $RPM_BUILD_ROOT%{_mandir}/man3/{DBI::W32,Win32::DBI}ODBC.3pm
-
+rm -rf %{buildroot}%{perl_vendorarch}/{Win32,DBI/W32ODBC.pm} \
+    %{buildroot}%{_mandir}/man3/{DBI::W32,Win32::DBI}ODBC.3pm
 perl -pi -e 's"#!perl -w"#!/usr/bin/perl -w"' \
-    $RPM_BUILD_ROOT%{perl_vendorarch}/{goferperf,dbixs_rev}.pl
-
+    %{buildroot}%{perl_vendorarch}/{goferperf,dbixs_rev}.pl
 
 %check
 make test
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-
 %files
-%defattr(-,root,root,-)
 %doc README ex/
 %{_bindir}/dbipro*
 %{_bindir}/dbilogstrip
@@ -80,8 +84,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*.1*
 %{_mandir}/man3/*.3*
 
-
 %changelog
+* Tue Jan 31 2012 Petr Šabata <contyk@redhat.com> - 1.617-1
+- 1.617 bump
+- Modernize spec
+- Remove now obsolete perl(DBI) Provides
+
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.616-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
