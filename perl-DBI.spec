@@ -1,43 +1,65 @@
-# Filter unwanted dependencies (rpmbuild >= 4.9)
-%global __requires_exclude perl\\(RPC::
-
 Name:           perl-DBI
-Version:        1.617
+Version:        1.618
 Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
 Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
+BuildRequires:  perl(ExtUtils::MakeMaker)
+# Run-time
 BuildRequires:  perl(base)
 BuildRequires:  perl(constant)
-BuildRequires:  perl(lib)
-BuildRequires:  perl(threads)
 BuildRequires:  perl(Carp)
+# Clone is optional
+BuildRequires:  perl(Clone)
 BuildRequires:  perl(Coro)
 BuildRequires:  perl(Coro::Handle)
 BuildRequires:  perl(Coro::Select)
 BuildRequires:  perl(Cwd)
 BuildRequires:  perl(Data::Dumper)
-BuildRequires:  perl(Encode)
+# DB_File is optional
+BuildRequires:  perl(DB_File)
+BuildRequires:  perl(DynaLoader)
+BuildRequires:  perl(Errno)
 BuildRequires:  perl(Exporter)
-BuildRequires:  perl(ExtUtils::MakeMaker)
-BuildRequires:  perl(File::Path)
+BuildRequires:  perl(Fcntl)
+BuildRequires:  perl(File::Basename)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(Getopt::Long)
 BuildRequires:  perl(IO::File)
 BuildRequires:  perl(IO::Select)
+BuildRequires:  perl(IPC::Open3)
 BuildRequires:  perl(Math::BigInt)
-BuildRequires:  perl(Net::Daemon::Test)
-# perl(RPC::PlClient) for tests only, it's optional at compile and run time
+# MLDBM is optional
+BuildRequires:  perl(MLDBM)
+# RPC::PlClient is optional
 BuildRequires:  perl(RPC::PlClient) >= 0.2000
+# RPC::PlServer is optional
 BuildRequires:  perl(RPC::PlServer)
 BuildRequires:  perl(Scalar::Util)
+# SQL::Statement is optional
+BuildRequires:  perl(SQL::Statement) >= 1.28
 BuildRequires:  perl(Storable)
+BuildRequires:  perl(Symbol)
+BuildRequires:  perl(threads)
+BuildRequires:  perl(Tie::Hash)
+BuildRequires:  perl(UNIVERSAL)
+# Tests
+BuildRequires:  perl(Encode)
+BuildRequires:  perl(File::Path)
+BuildRequires:  perl(lib)
+BuildRequires:  perl(Net::Daemon::Test)
 BuildRequires:  perl(Test::More)
-BuildRequires:  perl(Test::Pod) >= 1.00
 BuildRequires:  perl(Test::Simple) >= 0.90
+# Optional tests
+BuildRequires:  perl(Test::Pod) >= 1.00
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:       perl(Math::BigInt)
+
+# Filter unwanted dependencies
+%{?perl_default_filter}
+%global __requires_exclude %{?__requires_exclude|%__requires_exclude|}^perl\\(RPC::
 
 %description 
 DBI is a database access Application Programming Interface (API) for
@@ -73,6 +95,7 @@ perl -pi -e 's"#!perl -w"#!/usr/bin/perl -w"' \
 make test
 
 %files
+# Changes already packaged as DBI::Changes
 %doc README ex/
 %{_bindir}/dbipro*
 %{_bindir}/dbilogstrip
@@ -85,6 +108,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Mon Feb 27 2012 Petr Pisar <ppisar@redhat.com> - 1.618-1
+- 1.618 bump
+
 * Tue Jan 31 2012 Petr Šabata <contyk@redhat.com> - 1.617-1
 - 1.617 bump
 - Modernize spec
