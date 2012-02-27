@@ -1,6 +1,6 @@
 Name:           perl-DBI
 Version:        1.618
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -54,6 +54,7 @@ BuildRequires:  perl(Test::More)
 BuildRequires:  perl(Test::Simple) >= 0.90
 # Optional tests
 BuildRequires:  perl(Test::Pod) >= 1.00
+BuildRequires:  perl(Test::Pod::Coverage) >= 1.04
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 Requires:       perl(Math::BigInt)
 
@@ -108,6 +109,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Mon Feb 27 2012 Petr Pisar <ppisar@redhat.com> - 1.618-2
+- Build-require optional Test::Pod::Coverage
+
 * Mon Feb 27 2012 Petr Pisar <ppisar@redhat.com> - 1.618-1
 - 1.618 bump
 
