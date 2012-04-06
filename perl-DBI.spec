@@ -1,6 +1,6 @@
 Name:           perl-DBI
 Version:        1.618
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -38,8 +38,10 @@ BuildRequires:  perl(RPC::PlClient) >= 0.2000
 # RPC::PlServer is optional
 BuildRequires:  perl(RPC::PlServer)
 BuildRequires:  perl(Scalar::Util)
-# SQL::Statement is optional
+# SQL::Statement is optional, and it requires DBI
+%if 0%{!?perl_bootstrap:1}
 BuildRequires:  perl(SQL::Statement) >= 1.28
+%endif
 BuildRequires:  perl(Storable)
 BuildRequires:  perl(Symbol)
 BuildRequires:  perl(threads)
@@ -109,6 +111,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Fri Apr  6 2012 Marcela Mašláňová <mmaslano@redhat.com> - 1.618-3
+- 810370 apply Paul's bootstrap macro
+
 * Mon Feb 27 2012 Petr Pisar <ppisar@redhat.com> - 1.618-2
 - Build-require optional Test::Pod::Coverage
 
