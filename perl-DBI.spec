@@ -1,6 +1,6 @@
 Name:           perl-DBI
-Version:        1.618
-Release:        3%{?dist}
+Version:        1.620
+Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -24,12 +24,10 @@ BuildRequires:  perl(DynaLoader)
 BuildRequires:  perl(Errno)
 BuildRequires:  perl(Exporter)
 BuildRequires:  perl(Fcntl)
-BuildRequires:  perl(File::Basename)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(Getopt::Long)
 BuildRequires:  perl(IO::File)
 BuildRequires:  perl(IO::Select)
-BuildRequires:  perl(IPC::Open3)
 BuildRequires:  perl(Math::BigInt)
 # MLDBM is optional
 BuildRequires:  perl(MLDBM)
@@ -43,10 +41,8 @@ BuildRequires:  perl(Scalar::Util)
 BuildRequires:  perl(SQL::Statement) >= 1.28
 %endif
 BuildRequires:  perl(Storable)
-BuildRequires:  perl(Symbol)
 BuildRequires:  perl(threads)
 BuildRequires:  perl(Tie::Hash)
-BuildRequires:  perl(UNIVERSAL)
 # Tests
 BuildRequires:  perl(Encode)
 BuildRequires:  perl(File::Path)
@@ -111,6 +107,10 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Fri Apr 27 2012 Petr Šabata <contyk@redhat.com> - 1.620-1
+- 1.620 bump
+- Removing some perl-provided explicit dependencies
+
 * Fri Apr  6 2012 Marcela Mašláňová <mmaslano@redhat.com> - 1.618-3
 - 810370 apply Paul's bootstrap macro
 
