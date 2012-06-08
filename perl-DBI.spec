@@ -1,5 +1,5 @@
 Name:           perl-DBI
-Version:        1.620
+Version:        1.622
 Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
@@ -107,6 +107,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Fri Jun 08 2012 Petr Pisar <ppisar@redhat.com> - 1.622-1
+- 1.622 bump
+
 * Fri Apr 27 2012 Petr Šabata <contyk@redhat.com> - 1.620-1
 - 1.620 bump
 - Removing some perl-provided explicit dependencies
