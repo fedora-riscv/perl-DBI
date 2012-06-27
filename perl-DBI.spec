@@ -15,7 +15,7 @@ BuildRequires:  perl(Carp)
 BuildRequires:  perl(Clone)
 # according to docs is module using Coro just:
 # A PROOF-OF-CONCEPT IMPLEMENTATION FOR EXPERIMENTATION.
-%if ! ( 0%{?rhel} <= 7)
+%if ! ( 0%{?rhel} )
 BuildRequires:  perl(Coro)
 BuildRequires:  perl(Coro::Handle)
 BuildRequires:  perl(Coro::Select)
@@ -34,14 +34,16 @@ BuildRequires:  perl(IO::File)
 BuildRequires:  perl(IO::Select)
 BuildRequires:  perl(Math::BigInt)
 # MLDBM is optional
+%if ! ( 0%{?rhel} )
 BuildRequires:  perl(MLDBM)
+%endif
 # RPC::PlClient is optional
 BuildRequires:  perl(RPC::PlClient) >= 0.2000
 # RPC::PlServer is optional
 BuildRequires:  perl(RPC::PlServer)
 BuildRequires:  perl(Scalar::Util)
 # SQL::Statement is optional, and it requires DBI
-%if 0%{!?perl_bootstrap:1}
+%if 0%{!?perl_bootstrap:1} && ! ( 0%{?rhel} )
 BuildRequires:  perl(SQL::Statement) >= 1.28
 %endif
 BuildRequires:  perl(Storable)
@@ -62,7 +64,9 @@ Requires:       perl(Math::BigInt)
 
 # Filter unwanted dependencies
 %{?perl_default_filter}
-%global __requires_exclude %{?__requires_exclude|%__requires_exclude|}^perl\\(RPC::
+%if ! ( 0%{?rhel} )
+%global __requires_exclude %{?__requires_exclude|%__requires_exclude|}^perl\\(RPC::|^perl\\(Coro|^perl\\(MLDB\\)|^perl\\(SQL::Statement\\)
+%endif
 
 %description 
 DBI is a database access Application Programming Interface (API) for
@@ -113,6 +117,7 @@ make test
 %changelog
 * Wed Jun 27 2012 Marcela Mašláňová <mmaslano@redhat.com> - 1.622-3
 - Conditionalize usage of Coro, which is used in experimental module
+  and MLDB and SLQ::Statement. 
  
 * Sat Jun 16 2012 Petr Pisar <ppisar@redhat.com> - 1.622-2
 - Perl 5.16 rebuild
