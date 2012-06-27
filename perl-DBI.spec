@@ -1,6 +1,6 @@
 Name:           perl-DBI
 Version:        1.622
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -13,9 +13,13 @@ BuildRequires:  perl(constant)
 BuildRequires:  perl(Carp)
 # Clone is optional
 BuildRequires:  perl(Clone)
+# according to docs is module using Coro just:
+# A PROOF-OF-CONCEPT IMPLEMENTATION FOR EXPERIMENTATION.
+%if ! ( 0%{?rhel} <= 7)
 BuildRequires:  perl(Coro)
 BuildRequires:  perl(Coro::Handle)
 BuildRequires:  perl(Coro::Select)
+%endif
 BuildRequires:  perl(Cwd)
 BuildRequires:  perl(Data::Dumper)
 # DB_File is optional
@@ -107,6 +111,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Wed Jun 27 2012 Marcela Mašláňová <mmaslano@redhat.com> - 1.622-3
+- Conditionalize usage of Coro, which is used in experimental module
+ 
 * Sat Jun 16 2012 Petr Pisar <ppisar@redhat.com> - 1.622-2
 - Perl 5.16 rebuild
 
