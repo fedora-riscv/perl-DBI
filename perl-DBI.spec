@@ -1,6 +1,14 @@
+# According to documentation, module using Coro is just:
+# A PROOF-OF-CONCEPT IMPLEMENTATION FOR EXPERIMENTATION.
+%if 0%{?rhel} >= 7 
+%bcond_with coro
+%else
+%bcond_without coro
+%endif
+
 Name:           perl-DBI
 Version:        1.622
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -13,9 +21,7 @@ BuildRequires:  perl(constant)
 BuildRequires:  perl(Carp)
 # Clone is optional
 BuildRequires:  perl(Clone)
-# according to docs is module using Coro just:
-# A PROOF-OF-CONCEPT IMPLEMENTATION FOR EXPERIMENTATION.
-%if ! ( 0%{?rhel} )
+%if %{with coro}
 BuildRequires:  perl(Coro)
 BuildRequires:  perl(Coro::Handle)
 BuildRequires:  perl(Coro::Select)
@@ -64,9 +70,7 @@ Requires:       perl(Math::BigInt)
 
 # Filter unwanted dependencies
 %{?perl_default_filter}
-%if ! ( 0%{?rhel} )
-%global __requires_exclude %{?__requires_exclude|%__requires_exclude|}^perl\\(RPC::|^perl\\(Coro|^perl\\(MLDB\\)|^perl\\(SQL::Statement\\)
-%endif
+%global __requires_exclude %{?__requires_exclude|%__requires_exclude|}^perl\\(RPC::\\)
 
 %description 
 DBI is a database access Application Programming Interface (API) for
@@ -81,6 +85,10 @@ iconv -f iso8859-1 -t utf-8 lib/DBD/Gofer.pm >lib/DBD/Gofer.pm.new &&
 chmod 644 ex/*
 chmod 744 dbixs_rev.pl
 sed -i 's?#!perl?#!%{__perl}?' ex/corogofer.pl
+%if %{without coro}
+rm lib/DBD/Gofer/Transport/corostream.pm
+sed -i -e '/^lib\/DBD\/Gofer\/Transport\/corostream.pm$/d' MANIFEST
+%endif
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}"
@@ -115,6 +123,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Mon Aug 27 2012 Petr Pisar <ppisar@redhat.com> - 1.622-6
+- Disable Coro properly
+
 * Fri Jul 20 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.622-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
