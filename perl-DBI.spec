@@ -7,8 +7,8 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.622
-Release:        6%{?dist}
+Version:        1.623
+Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -20,7 +20,7 @@ BuildRequires:  perl(base)
 BuildRequires:  perl(constant)
 BuildRequires:  perl(Carp)
 # Clone is optional
-BuildRequires:  perl(Clone)
+BuildRequires:  perl(Clone) >= 0.34
 %if %{with coro}
 BuildRequires:  perl(Coro)
 BuildRequires:  perl(Coro::Handle)
@@ -36,6 +36,7 @@ BuildRequires:  perl(Exporter)
 BuildRequires:  perl(Fcntl)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(Getopt::Long)
+BuildRequires:  perl(IO::Dir)
 BuildRequires:  perl(IO::File)
 BuildRequires:  perl(IO::Select)
 BuildRequires:  perl(Math::BigInt)
@@ -50,7 +51,7 @@ BuildRequires:  perl(RPC::PlServer)
 BuildRequires:  perl(Scalar::Util)
 # SQL::Statement is optional, and it requires DBI
 %if 0%{!?perl_bootstrap:1} && ! ( 0%{?rhel} )
-BuildRequires:  perl(SQL::Statement) >= 1.28
+BuildRequires:  perl(SQL::Statement) >= 1.402
 %endif
 BuildRequires:  perl(Storable)
 BuildRequires:  perl(threads)
@@ -123,6 +124,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Thu Jan 03 2013 Petr Šabata <contyk@redhat.com> - 1.623-1
+- 1.623 bump
+
 * Mon Aug 27 2012 Petr Pisar <ppisar@redhat.com> - 1.622-6
 - Disable Coro properly
 
