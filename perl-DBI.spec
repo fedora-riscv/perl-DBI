@@ -8,7 +8,7 @@
 
 Name:           perl-DBI
 Version:        1.623
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -124,6 +124,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.623-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Thu Jan 03 2013 Petr Šabata <contyk@redhat.com> - 1.623-1
 - 1.623 bump
 
