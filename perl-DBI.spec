@@ -7,20 +7,24 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.623
-Release:        2%{?dist}
+Version:        1.625
+Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
 Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
+BuildRequires:  perl
 BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(File::Find)
+BuildRequires:  perl(strict)
 # Run-time
 BuildRequires:  perl(base)
 BuildRequires:  perl(constant)
 BuildRequires:  perl(Carp)
 # Clone is optional
 BuildRequires:  perl(Clone) >= 0.34
+BuildRequires:  perl(Config)
 %if %{with coro}
 BuildRequires:  perl(Coro)
 BuildRequires:  perl(Coro::Handle)
@@ -34,16 +38,19 @@ BuildRequires:  perl(DynaLoader)
 BuildRequires:  perl(Errno)
 BuildRequires:  perl(Exporter)
 BuildRequires:  perl(Fcntl)
+BuildRequires:  perl(File::Basename)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(Getopt::Long)
 BuildRequires:  perl(IO::Dir)
 BuildRequires:  perl(IO::File)
 BuildRequires:  perl(IO::Select)
+BuildRequires:  perl(IPC::Open3)
 BuildRequires:  perl(Math::BigInt)
 # MLDBM is optional
 %if ! ( 0%{?rhel} )
 BuildRequires:  perl(MLDBM)
 %endif
+# Params::Util is optional
 # RPC::PlClient is optional
 BuildRequires:  perl(RPC::PlClient) >= 0.2000
 # RPC::PlServer is optional
@@ -54,10 +61,17 @@ BuildRequires:  perl(Scalar::Util)
 BuildRequires:  perl(SQL::Statement) >= 1.402
 %endif
 BuildRequires:  perl(Storable)
+BuildRequires:  perl(Symbol)
 BuildRequires:  perl(threads)
 BuildRequires:  perl(Tie::Hash)
+BuildRequires:  perl(UNIVERSAL)
+BuildRequires:  perl(utf8)
+BuildRequires:  perl(vars)
+BuildRequires:  perl(warnings)
 # Tests
+BuildRequires:  perl(Benchmark)
 BuildRequires:  perl(Encode)
+BuildRequires:  perl(File::Copy)
 BuildRequires:  perl(File::Path)
 BuildRequires:  perl(lib)
 BuildRequires:  perl(Net::Daemon::Test)
@@ -66,7 +80,7 @@ BuildRequires:  perl(Test::Simple) >= 0.90
 # Optional tests
 BuildRequires:  perl(Test::Pod) >= 1.00
 BuildRequires:  perl(Test::Pod::Coverage) >= 1.04
-Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
 Requires:       perl(Math::BigInt)
 
 # Filter unwanted dependencies
@@ -124,6 +138,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Apr 02 2013 Petr Šabata <contyk@redhat.com> - 1.625-1
+- 1.625 bump, perl5.17 fixes
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.623-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
