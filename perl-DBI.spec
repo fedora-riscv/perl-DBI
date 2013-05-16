@@ -7,7 +7,7 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.625
+Version:        1.626
 Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
@@ -126,7 +126,7 @@ make test
 
 %files
 # Changes already packaged as DBI::Changes
-%doc README ex/
+%doc README.md ex/
 %{_bindir}/dbipro*
 %{_bindir}/dbilogstrip
 %{perl_vendorarch}/*.p*
@@ -138,6 +138,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Thu May 16 2013 Petr Pisar <ppisar@redhat.com> - 1.626-1
+- 1.626 bump
+
 * Tue Apr 02 2013 Petr Šabata <contyk@redhat.com> - 1.625-1
 - 1.625 bump, perl5.17 fixes
 
