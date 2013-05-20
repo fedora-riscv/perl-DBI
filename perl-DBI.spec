@@ -7,7 +7,7 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.626
+Version:        1.627
 Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
@@ -138,6 +138,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Mon May 20 2013 Petr Pisar <ppisar@redhat.com> - 1.627-1
+- 1.627 bump
+
 * Thu May 16 2013 Petr Pisar <ppisar@redhat.com> - 1.626-1
 - 1.626 bump
 
