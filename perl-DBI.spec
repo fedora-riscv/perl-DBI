@@ -8,7 +8,7 @@
 
 Name:           perl-DBI
 Version:        1.628
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -138,6 +138,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Wed Aug 14 2013 Jitka Plesnikova <jplesnik@redhat.com> - 1.628-3
+- Perl 5.18 re-rebuild of bootstrapped packages
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.628-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
