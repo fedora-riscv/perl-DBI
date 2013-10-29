@@ -7,8 +7,8 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.628
-Release:        3%{?dist}
+Version:        1.630
+Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -138,6 +138,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Oct 29 2013 Jitka Plesnikova <jplesnik@redhat.com> - 1.630-1
+- 1.630 bump
+
 * Wed Aug 14 2013 Jitka Plesnikova <jplesnik@redhat.com> - 1.628-3
 - Perl 5.18 re-rebuild of bootstrapped packages
 
