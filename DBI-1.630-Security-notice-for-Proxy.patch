@@ -1,0 +1,55 @@
+From cd8fcbbf402e1d70c9f325f8b0fcd99e02cf14be Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Petr=20P=C3=ADsa=C5=99?= <ppisar@redhat.com>
+Date: Mon, 18 Nov 2013 12:52:09 +0100
+Subject: [PATCH] Security notice for Proxy
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+PlRPC is not secure due to Storable. Warn Proxy users about it.
+
+Signed-off-by: Petr Písař <ppisar@redhat.com>
+---
+ lib/DBD/Proxy.pm       | 7 +++++++
+ lib/DBI/ProxyServer.pm | 7 +++++++
+ 2 files changed, 14 insertions(+)
+
+diff --git a/lib/DBD/Proxy.pm b/lib/DBD/Proxy.pm
+index 287b2dc..5948255 100644
+--- a/lib/DBD/Proxy.pm
++++ b/lib/DBD/Proxy.pm
+@@ -974,6 +974,13 @@ The workaround is storing the modified local copy back to the server:
+   $dbh->{"csv_tables"} = $tables;
+ 
+ 
++=head1 SECURITY WARNING
++
++L<RPC::PlClient> used underneath is not secure due to serializing and
++deserializing data with L<Storable> module. Use the proxy driver only in
++trusted environment.
++
++
+ =head1 AUTHOR AND COPYRIGHT
+ 
+ This module is Copyright (c) 1997, 1998
+diff --git a/lib/DBI/ProxyServer.pm b/lib/DBI/ProxyServer.pm
+index 68ad4af..78a0d78 100644
+--- a/lib/DBI/ProxyServer.pm
++++ b/lib/DBI/ProxyServer.pm
+@@ -867,6 +867,13 @@ Don't try to put parameters into the sql-query like this:
+ =back
+ 
+ 
++=head1 SECURITY WARNING
++
++L<RPC::PlServer> used underneath is not secure due to serializing and
++deserializing data with L<Storable> module. Use the proxy driver only in
++trusted environment.
++
++
+ =head1 AUTHOR
+ 
+     Copyright (c) 1997    Jochen Wiedmann
+-- 
+1.8.3.1
+
