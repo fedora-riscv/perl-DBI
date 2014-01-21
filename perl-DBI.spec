@@ -7,8 +7,8 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.630
-Release:        2%{?dist}
+Version:        1.631
+Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -141,6 +141,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Tue Jan 21 2014 Jitka Plesnikova <jplesnik@redhat.com> - 1.631-1
+- 1.631 bump
+
 * Tue Nov 26 2013 Petr Pisar <ppisar@redhat.com> - 1.630-2
 - Add a security warning about use of RPC::PlClient (bug #1030578)
 
