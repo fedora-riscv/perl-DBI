@@ -1,6 +1,8 @@
 # According to documentation, module using Coro is just:
 # A PROOF-OF-CONCEPT IMPLEMENTATION FOR EXPERIMENTATION.
-%if 0%{?rhel} >= 7 
+# Omit Coro support on bootsrap bacause perl-DBI is pulled in by core
+# perl-CPANPLUS.
+%if %{defined perl_bootstrap} || 0%{?rhel} >= 7
 %bcond_with coro
 %else
 %bcond_without coro
@@ -8,7 +10,7 @@
 
 Name:           perl-DBI
 Version:        1.631
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -28,9 +30,9 @@ BuildRequires:  perl(Carp)
 BuildRequires:  perl(Clone) >= 0.34
 BuildRequires:  perl(Config)
 %if %{with coro}
-BuildRequires:  perl(Coro)
-BuildRequires:  perl(Coro::Handle)
-BuildRequires:  perl(Coro::Select)
+# Coro Not needed by tests
+# Coro::Handle not needed by tests
+# Coro::Select not needed by tests
 %endif
 BuildRequires:  perl(Cwd)
 BuildRequires:  perl(Data::Dumper)
@@ -95,6 +97,17 @@ the Perl Language. The DBI API Specification defines a set of
 functions, variables and conventions that provide a consistent
 database interface independent of the actual database being used.
 
+%if %{with coro}
+%package Coro
+Summary:        Asynchronous DBD::Gofer stream transport using Coro
+Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
+
+%description Coro
+This is an experimental asynchronous DBD::Gofer stream transport for DBI
+implemented on top of Coro. The BIG WIN from using Coro is that it enables
+the use of existing DBI frameworks like DBIx::Class.
+%endif
+
 %prep
 %setup -q -n DBI-%{version} 
 %patch0 -p1
@@ -129,18 +142,28 @@ make test
 
 %files
 # Changes already packaged as DBI::Changes
-%doc README.md ex/
+%doc README.md ex/perl_dbi_nulls_test.pl ex/profile.pl
 %{_bindir}/dbipro*
 %{_bindir}/dbilogstrip
 %{perl_vendorarch}/*.p*
 %{perl_vendorarch}/Bundle/
 %{perl_vendorarch}/DBD/
+%exclude %{perl_vendorarch}/DBD/Gofer/Transport/corostream.pm
 %{perl_vendorarch}/DBI/
 %{perl_vendorarch}/auto/DBI/
 %{_mandir}/man1/*.1*
 %{_mandir}/man3/*.3*
 
+%if %{with coro}
+%files Coro
+%doc ex/corogofer.pl
+%{perl_vendorarch}/DBD/Gofer/Transport/corostream.pm
+%endif
+
 %changelog
+* Wed Jan 22 2014 Petr Pisar <ppisar@redhat.com> - 1.631-2
+- Split DBD::Gofer::Transport::corostream into sub-package
+
 * Tue Jan 21 2014 Jitka Plesnikova <jplesnik@redhat.com> - 1.631-1
 - 1.631 bump
 
