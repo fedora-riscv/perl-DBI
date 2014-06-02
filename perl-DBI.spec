@@ -10,7 +10,7 @@
 
 Name:           perl-DBI
 Version:        1.631
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -55,10 +55,6 @@ BuildRequires:  perl(Math::BigInt)
 BuildRequires:  perl(MLDBM)
 %endif
 # Params::Util is optional
-# RPC::PlClient is optional
-BuildRequires:  perl(RPC::PlClient) >= 0.2000
-# RPC::PlServer is optional
-BuildRequires:  perl(RPC::PlServer)
 BuildRequires:  perl(Scalar::Util)
 # SQL::Statement is optional, and it requires DBI
 %if 0%{!?perl_bootstrap:1} && ! ( 0%{?rhel} )
@@ -78,7 +74,6 @@ BuildRequires:  perl(Encode)
 BuildRequires:  perl(File::Copy)
 BuildRequires:  perl(File::Path)
 BuildRequires:  perl(lib)
-BuildRequires:  perl(Net::Daemon::Test)
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(Test::Simple) >= 0.90
 # Optional tests
@@ -120,6 +115,11 @@ sed -i 's?#!perl?#!%{__perl}?' ex/corogofer.pl
 rm lib/DBD/Gofer/Transport/corostream.pm
 sed -i -e '/^lib\/DBD\/Gofer\/Transport\/corostream.pm$/d' MANIFEST
 %endif
+# Remove RPC::Pl* reverse dependencies due to security concerns,
+# CVE-2013-7284, bug #1051110
+rm lib/Bundle/DBI.pm lib/DBD/Proxy.pm lib/DBI/ProxyServer.pm dbiproxy.PL
+rm t/80proxy.t
+sed -i -e 's/"dbiproxy$ext_pl",//' Makefile.PL
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}"
@@ -145,7 +145,6 @@ make test
 %{_bindir}/dbipro*
 %{_bindir}/dbilogstrip
 %{perl_vendorarch}/*.p*
-%{perl_vendorarch}/Bundle/
 %{perl_vendorarch}/DBD/
 %exclude %{perl_vendorarch}/DBD/Gofer/Transport/corostream.pm
 %{perl_vendorarch}/DBI/
@@ -160,6 +159,10 @@ make test
 %endif
 
 %changelog
+* Mon Jun 02 2014 Petr Pisar <ppisar@redhat.com> - 1.631-3
+- Remove RPC::Pl* reverse dependencies due to security concerns (CVE-2013-7284)
+  (bug #1051110)
+
 * Wed Jan 22 2014 Petr Pisar <ppisar@redhat.com> - 1.631-2
 - Split DBD::Gofer::Transport::corostream into sub-package
 
