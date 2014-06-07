@@ -10,7 +10,7 @@
 
 Name:           perl-DBI
 Version:        1.631
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -159,6 +159,9 @@ make test
 %endif
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.631-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Mon Jun 02 2014 Petr Pisar <ppisar@redhat.com> - 1.631-3
 - Remove RPC::Pl* reverse dependencies due to security concerns (CVE-2013-7284)
   (bug #1051110)
