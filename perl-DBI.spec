@@ -9,15 +9,13 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.631
-Release:        7%{?dist}
+Version:        1.632
+Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
 Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
-# Add a security warning about use of RPC::PlClient, bug #1030578, CPAN RT#90475
-Patch0:         DBI-1.630-Security-notice-for-Proxy.patch
 BuildRequires:  perl
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(File::Find)
@@ -105,7 +103,6 @@ the use of existing DBI frameworks like DBIx::Class.
 
 %prep
 %setup -q -n DBI-%{version} 
-%patch0 -p1
 iconv -f iso8859-1 -t utf-8 lib/DBD/Gofer.pm >lib/DBD/Gofer.pm.new &&
   mv lib/DBD/Gofer.pm{.new,}
 chmod 644 ex/*
@@ -159,6 +156,9 @@ make test
 %endif
 
 %changelog
+* Wed Nov 12 2014 Jitka Plesnikova <jplesnik@redhat.com> - 1.632-1
+- 1.632 bump
+
 * Sun Sep 07 2014 Jitka Plesnikova <jplesnik@redhat.com> - 1.631-7
 - Perl 5.20 re-rebuild of bootstrapped packages
 
