@@ -105,7 +105,10 @@ iconv -f iso8859-1 -t utf-8 lib/DBD/Gofer.pm >lib/DBD/Gofer.pm.new &&
   mv lib/DBD/Gofer.pm{.new,}
 chmod 644 ex/*
 chmod 744 dbixs_rev.pl
-sed -i 's?#!perl?#!%{__perl}?' ex/corogofer.pl
+# Fix shell bangs
+for F in dbixs_rev.pl ex/corogofer.pl; do
+    perl -MExtUtils::MakeMaker -e "ExtUtils::MM_Unix->fixin(q{$F})"
+done
 %if %{without coro}
 rm lib/DBD/Gofer/Transport/corostream.pm
 sed -i -e '/^lib\/DBD\/Gofer\/Transport\/corostream.pm$/d' MANIFEST
@@ -133,8 +136,6 @@ make pure_install DESTDIR=%{buildroot}
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 chmod -R u+w %{buildroot}/*
-perl -pi -e 's"#!perl -w"#!/usr/bin/perl -w"' \
-    %{buildroot}%{perl_vendorarch}/{goferperf,dbixs_rev}.pl
 
 %check
 make test
