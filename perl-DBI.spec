@@ -112,8 +112,11 @@ sed -i -e '/^lib\/DBD\/Gofer\/Transport\/corostream.pm$/d' MANIFEST
 %endif
 # Remove RPC::Pl* reverse dependencies due to security concerns,
 # CVE-2013-7284, bug #1051110
-rm lib/Bundle/DBI.pm lib/DBD/Proxy.pm lib/DBI/ProxyServer.pm dbiproxy.PL
-rm t/80proxy.t
+for F in lib/Bundle/DBI.pm lib/DBD/Proxy.pm lib/DBI/ProxyServer.pm \
+        dbiproxy.PL t/80proxy.t; do
+    rm "$F"
+    sed -i -e '\|^'"$F"'|d' MANIFEST
+done
 sed -i -e 's/"dbiproxy$ext_pl",//' Makefile.PL
 
 %build
