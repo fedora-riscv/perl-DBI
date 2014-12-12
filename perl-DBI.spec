@@ -135,7 +135,7 @@ make %{?_smp_mflags}
 make pure_install DESTDIR=%{buildroot}
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
-chmod -R u+w %{buildroot}/*
+%{_fixperms} '%{buildroot}'/*
 
 %check
 make test
