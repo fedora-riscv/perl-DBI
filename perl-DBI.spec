@@ -118,6 +118,11 @@ for F in lib/Bundle/DBI.pm lib/DBD/Proxy.pm lib/DBI/ProxyServer.pm \
     sed -i -e '\|^'"$F"'|d' MANIFEST
 done
 sed -i -e 's/"dbiproxy$ext_pl",//' Makefile.PL
+# Remove Win32 specific files to avoid unwanted dependencies
+for F in lib/DBI/W32ODBC.pm lib/Win32/DBIODBC.pm; do
+    rm "$F"
+    sed -i -e '\|^'"$F"'|d' MANIFEST
+done
 
 %build
 perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}"
@@ -128,9 +133,6 @@ make pure_install DESTDIR=%{buildroot}
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 chmod -R u+w %{buildroot}/*
-# Remove Win32 specific files and man pages to avoid unwanted dependencies
-rm -rf %{buildroot}%{perl_vendorarch}/{Win32,DBI/W32ODBC.pm} \
-    %{buildroot}%{_mandir}/man3/{DBI::W32,Win32::DBI}ODBC.3pm
 perl -pi -e 's"#!perl -w"#!/usr/bin/perl -w"' \
     %{buildroot}%{perl_vendorarch}/{goferperf,dbixs_rev}.pl
 
