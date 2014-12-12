@@ -101,8 +101,11 @@ the use of existing DBI frameworks like DBIx::Class.
 
 %prep
 %setup -q -n DBI-%{version} 
-iconv -f iso8859-1 -t utf-8 lib/DBD/Gofer.pm >lib/DBD/Gofer.pm.new &&
-  mv lib/DBD/Gofer.pm{.new,}
+for F in lib/DBD/Gofer.pm; do
+    iconv -f ISO-8859-1 -t UTF-8 < "$F" > "${F}.utf8"
+    touch -r "$F" "${F}.utf8"
+    mv "${F}.utf8" "$F"
+done
 chmod 644 ex/*
 chmod 744 dbixs_rev.pl
 # Fix shell bangs
