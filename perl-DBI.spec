@@ -10,7 +10,7 @@
 
 Name:           perl-DBI
 Version:        1.632
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -20,12 +20,10 @@ BuildRequires:  perl
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(File::Find)
 BuildRequires:  perl(strict)
-# Run-time
+# Run-time:
 BuildRequires:  perl(base)
 BuildRequires:  perl(constant)
 BuildRequires:  perl(Carp)
-# Clone is optional
-BuildRequires:  perl(Clone) >= 0.34
 BuildRequires:  perl(Config)
 %if %{with coro}
 # Coro Not needed by tests
@@ -34,8 +32,6 @@ BuildRequires:  perl(Config)
 %endif
 BuildRequires:  perl(Cwd)
 BuildRequires:  perl(Data::Dumper)
-# DB_File is optional
-BuildRequires:  perl(DB_File)
 BuildRequires:  perl(DynaLoader)
 BuildRequires:  perl(Errno)
 BuildRequires:  perl(Exporter)
@@ -48,16 +44,7 @@ BuildRequires:  perl(IO::File)
 BuildRequires:  perl(IO::Select)
 BuildRequires:  perl(IPC::Open3)
 BuildRequires:  perl(Math::BigInt)
-# MLDBM is optional
-%if ! ( 0%{?rhel} )
-BuildRequires:  perl(MLDBM)
-%endif
-# Params::Util is optional
 BuildRequires:  perl(Scalar::Util)
-# SQL::Statement is optional, and it requires DBI
-%if 0%{!?perl_bootstrap:1} && ! ( 0%{?rhel} )
-BuildRequires:  perl(SQL::Statement) >= 1.402
-%endif
 BuildRequires:  perl(Storable)
 BuildRequires:  perl(Symbol)
 BuildRequires:  perl(threads)
@@ -66,6 +53,17 @@ BuildRequires:  perl(UNIVERSAL)
 BuildRequires:  perl(utf8)
 BuildRequires:  perl(vars)
 BuildRequires:  perl(warnings)
+# Optional run-time:
+BuildRequires:  perl(Clone) >= 0.34
+BuildRequires:  perl(DB_File)
+%if ! ( 0%{?rhel} )
+BuildRequires:  perl(MLDBM)
+%endif
+# Do not build-require optional Params::Util to test the fall-back code
+# SQL::Statement is optional, and it requires DBI
+%if 0%{!?perl_bootstrap:1} && ! ( 0%{?rhel} )
+BuildRequires:  perl(SQL::Statement) >= 1.402
+%endif
 # Tests
 BuildRequires:  perl(Benchmark)
 BuildRequires:  perl(Encode)
@@ -156,6 +154,9 @@ make test
 %endif
 
 %changelog
+* Fri Dec 12 2014 Petr Pisar <ppisar@redhat.com> - 1.632-2
+- Improve specification file
+
 * Wed Nov 12 2014 Jitka Plesnikova <jplesnik@redhat.com> - 1.632-1
 - 1.632 bump
 
