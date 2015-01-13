@@ -150,7 +150,9 @@ make test
 %{_bindir}/dbilogstrip
 %{perl_vendorarch}/*.p*
 %{perl_vendorarch}/DBD/
+%if %{with coro}
 %exclude %{perl_vendorarch}/DBD/Gofer/Transport/corostream.pm
+%endif
 %{perl_vendorarch}/DBI/
 %{perl_vendorarch}/auto/DBI/
 %{_mandir}/man1/*.1*
