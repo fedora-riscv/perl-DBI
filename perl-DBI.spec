@@ -9,8 +9,8 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.632
-Release:        2%{?dist}
+Version:        1.633
+Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -163,6 +163,9 @@ make test
 %endif
 
 %changelog
+* Tue Jan 13 2015 Jitka Plesnikova <jplesnik@redhat.com> - 1.633-1
+- 1.633 bump
+
 * Fri Dec 12 2014 Petr Pisar <ppisar@redhat.com> - 1.632-2
 - Improve specification file
 
