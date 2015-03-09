@@ -10,12 +10,19 @@
 
 Name:           perl-DBI
 Version:        1.631
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
-Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
+# The source tarball must be repackaged to remove the DBI/FAQ.pm, since the
+# license is not a FSF free license. 
+# When upgrading, download the new source tarball, and run 
+# "./strip-FAQ.sh <version>" to produce the "-repackaged" tarball.
+# Source0:       http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
+Source0:        DBI-%{version}_repackaged.tar.gz
+Source1:        strip_FAQ.sh
+
 # Add a security warning about use of RPC::PlClient, bug #1030578, CPAN RT#90475
 Patch0:         DBI-1.630-Security-notice-for-Proxy.patch
 BuildRequires:  perl
@@ -159,6 +166,9 @@ make test
 %endif
 
 %changelog
+* Mon Mar 09 2015 Jitka Plesnikova <jplesnik@redhat.com> - 1.631-6
+- Repackage source tarball to remove non-free DBI/FAQ.pm (bug #1199532)
+
 * Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.631-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
