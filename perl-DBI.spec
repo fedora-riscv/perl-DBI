@@ -8,12 +8,18 @@
 
 Name:           perl-DBI
 Version:        1.630
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
-Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
+# The source tarball must be repackaged to remove the DBI/FAQ.pm, since the
+# license is not a FSF free license. 
+# When upgrading, download the new source tarball, and run 
+# "./strip-FAQ.sh <version>" to produce the "-repackaged" tarball.
+# Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
+Source0:        DBI-%{version}_repackaged.tar.gz
+Source1:        strip_FAQ.sh
 BuildRequires:  perl
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(File::Find)
@@ -138,6 +144,9 @@ make test
 %{_mandir}/man3/*.3*
 
 %changelog
+* Mon Mar 09 2015 Jitka Plesnikova <jplesnik@redhat.com> - 1.630-2
+- Repackage source tarball to remove non-free DBI/FAQ.pm (bug #1199532)
+
 * Tue Oct 29 2013 Jitka Plesnikova <jplesnik@redhat.com> - 1.630-1
 - 1.630 bump
 
