@@ -18,7 +18,7 @@ URL:            http://dbi.perl.org/
 # The source tarball must be repackaged to remove the DBI/FAQ.pm, since the
 # license is not a FSF free license. 
 # When upgrading, download the new source tarball, and run 
-# "./repackage.sh <version>" to produce the "-repackaged" tarball.
+# "./repackage.sh <version>" to produce the "_repackaged" tarball.
 # Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
 Source0:        DBI-%{version}_repackaged.tar.gz
 BuildRequires:  perl
