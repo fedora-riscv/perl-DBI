@@ -10,7 +10,7 @@
 
 Name:           perl-DBI
 Version:        1.633
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -170,6 +170,9 @@ make test
 %endif
 
 %changelog
+* Fri Jun 05 2015 Jitka Plesnikova <jplesnik@redhat.com> - 1.633-4
+- Perl 5.22 rebuild
+
 * Thu Mar 12 2015 Jitka Plesnikova <jplesnik@redhat.com> - 1.633-3
 - Remove script strip_FAQ.sh from sources
 
