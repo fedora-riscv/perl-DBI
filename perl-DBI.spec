@@ -9,22 +9,25 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.633
-Release:        6%{?dist}
+Version:        1.634
+Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
-# The source tarball must be repackaged to remove the DBI/FAQ.pm, since the
+# The source tarball must be repackaged to remove the lib/DBI/FAQ.pm, since the
 # license is not a FSF free license. 
 # When upgrading, download the new source tarball, and run 
 # "./repackage.sh <version>" to produce the "_repackaged" tarball.
-# Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
+# Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%%{version}.tar.gz
 Source0:        DBI-%{version}_repackaged.tar.gz
+BuildRequires:  coreutils
+BuildRequires:  glibc-common
 BuildRequires:  perl
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(File::Find)
 BuildRequires:  perl(strict)
+BuildRequires:  sed
 # Run-time:
 BuildRequires:  perl(base)
 BuildRequires:  perl(constant)
@@ -170,6 +173,9 @@ make test
 %endif
 
 %changelog
+* Tue Aug 04 2015 Petr Pisar <ppisar@redhat.com> - 1.634-1
+- 1.634 bump
+
 * Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.633-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
