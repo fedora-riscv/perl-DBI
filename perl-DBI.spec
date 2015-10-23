@@ -10,7 +10,7 @@
 
 Name:           perl-DBI
 Version:        1.634
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -88,7 +88,7 @@ Requires:       perl(Math::BigInt)
 
 # Filter unwanted dependencies
 %{?perl_default_filter}
-%global __requires_exclude %{?__requires_exclude|%__requires_exclude|}^perl\\(RPC::\\)
+%global __requires_exclude %{?__requires_exclude:%{__requires_exclude}|}^perl\\(RPC::\\)
 
 %description 
 DBI is a database access Application Programming Interface (API) for
@@ -173,6 +173,9 @@ make test
 %endif
 
 %changelog
+* Fri Oct 23 2015 Petr Pisar <ppisar@redhat.com> - 1.634-2
+- Correct dependency filter
+
 * Tue Aug 04 2015 Petr Pisar <ppisar@redhat.com> - 1.634-1
 - 1.634 bump
 
