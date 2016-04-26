@@ -9,21 +9,18 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.634
-Release:        3%{?dist}
+Version:        1.636
+Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
-# The source tarball must be repackaged to remove the lib/DBI/FAQ.pm, since the
-# license is not a FSF free license. 
-# When upgrading, download the new source tarball, and run 
-# "./repackage.sh <version>" to produce the "_repackaged" tarball.
-# Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%%{version}.tar.gz
-Source0:        DBI-%{version}_repackaged.tar.gz
+Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
 BuildRequires:  coreutils
 BuildRequires:  glibc-common
 BuildRequires:  perl
+BuildRequires:  perl-devel
+BuildRequires:  perl-generators
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(File::Find)
 BuildRequires:  perl(strict)
@@ -73,6 +70,7 @@ BuildRequires:  perl(MLDBM)
 BuildRequires:  perl(SQL::Statement) >= 1.402
 %endif
 # Tests
+BuildRequires:  perl(B)
 BuildRequires:  perl(Benchmark)
 BuildRequires:  perl(Encode)
 BuildRequires:  perl(File::Copy)
@@ -144,8 +142,8 @@ make %{?_smp_mflags}
 
 %install
 make pure_install DESTDIR=%{buildroot}
-find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
-find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
+find %{buildroot} -type f -name .packlist -delete
+find %{buildroot} -type f -name '*.bs' -empty -delete
 %{_fixperms} '%{buildroot}'/*
 
 %check
@@ -173,6 +171,9 @@ make test
 %endif
 
 %changelog
+* Tue Apr 26 2016 Jitka Plesnikova <jplesnik@redhat.com> - 1.636-1
+- 1.636 bump
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.634-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
