@@ -10,7 +10,7 @@
 
 Name:           perl-DBI
 Version:        1.636
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -171,6 +171,9 @@ make test
 %endif
 
 %changelog
+* Wed May 18 2016 Jitka Plesnikova <jplesnik@redhat.com> - 1.636-3
+- Perl 5.24 re-rebuild of bootstrapped packages
+
 * Sun May 15 2016 Jitka Plesnikova <jplesnik@redhat.com> - 1.636-2
 - Perl 5.24 rebuild
 
