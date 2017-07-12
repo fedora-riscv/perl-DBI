@@ -18,7 +18,7 @@ URL:            http://dbi.perl.org/
 Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
 BuildRequires:  coreutils
 BuildRequires:  glibc-common
-BuildRequires:  perl
+BuildRequires:  perl-interpreter
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
 BuildRequires:  perl(ExtUtils::MakeMaker)
