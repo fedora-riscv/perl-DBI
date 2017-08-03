@@ -10,7 +10,7 @@
 
 Name:           perl-DBI
 Version:        1.636
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -171,6 +171,9 @@ make test
 %endif
 
 %changelog
+* Thu Aug 03 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.636-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.636-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
