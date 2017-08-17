@@ -9,8 +9,8 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.636
-Release:        8%{?dist}
+Version:        1.637
+Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
@@ -18,9 +18,10 @@ URL:            http://dbi.perl.org/
 Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
 BuildRequires:  coreutils
 BuildRequires:  glibc-common
-BuildRequires:  perl-interpreter
+BuildRequires:  make
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
+BuildRequires:  perl-interpreter
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(File::Find)
 BuildRequires:  perl(strict)
@@ -76,6 +77,7 @@ BuildRequires:  perl(Encode)
 BuildRequires:  perl(File::Copy)
 BuildRequires:  perl(File::Path)
 BuildRequires:  perl(lib)
+BuildRequires:  perl(overload)
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(Test::Simple) >= 0.90
 # Optional tests
@@ -171,6 +173,9 @@ make test
 %endif
 
 %changelog
+* Thu Aug 17 2017 Jitka Plesnikova <jplesnik@redhat.com> - 1.637-1
+- 1.637 bump
+
 * Thu Aug 03 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.636-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
