@@ -3,9 +3,30 @@
 # Omit Coro support on bootsrap bacause perl-DBI is pulled in by core
 # perl-CPANPLUS.
 %if %{defined perl_bootstrap} || 0%{?rhel} >= 7
-%bcond_with coro
+%bcond_with perl_DBI_enables_coro
 %else
-%bcond_without coro
+%bcond_without perl_DBI_enables_coro
+%endif
+
+# Test with and suggest Clone Perl module for better multithreading
+%bcond_without perl_DBI_enables_Clone
+# Test with and suggest DB_File Perl module
+%bcond_without perl_DBI_enables_DB_File
+# Test with and suggest MLDBM Perl module for arbitrary mulicolumn databases
+%if 0%{?rhel}
+%bcond_with perl_DBI_enables_MLDBM
+%else
+%bcond_without perl_DBI_enables_MLDBM
+%endif
+# Run optional tests
+%bcond_without perl_DBI_enables_optional_test
+# Test with and suggest SQL::Statement Perl module for more serialization
+# formats
+# SQL::Statement is optional, and it is in build-cycle with DBI
+%if %{defined perl_bootstrap} || 0%{?rhel}
+%bcond_with perl_DBI_enables_SQL_Statement
+%else
+%bcond_without perl_DBI_enables_SQL_Statement
 %endif
 
 Name:           perl-DBI
@@ -31,7 +52,7 @@ BuildRequires:  perl(base)
 BuildRequires:  perl(constant)
 BuildRequires:  perl(Carp)
 BuildRequires:  perl(Config)
-%if %{with coro}
+%if %{with perl_DBI_enables_coro}
 # Coro Not needed by tests
 # Coro::Handle not needed by tests
 # Coro::Select not needed by tests
@@ -60,14 +81,17 @@ BuildRequires:  perl(utf8)
 BuildRequires:  perl(vars)
 BuildRequires:  perl(warnings)
 # Optional run-time:
+%if %{with perl_DBI_enables_Clone}
 BuildRequires:  perl(Clone) >= 0.34
+%endif
+%if %{with perl_DBI_enables_DB_File}
 BuildRequires:  perl(DB_File)
-%if ! ( 0%{?rhel} )
+%endif
+%if %{with perl_DBI_enables_MLDBM}
 BuildRequires:  perl(MLDBM)
 %endif
 # Do not build-require optional Params::Util to test the fall-back code
-# SQL::Statement is optional, and it requires DBI
-%if 0%{!?perl_bootstrap:1} && ! ( 0%{?rhel} )
+%if %{with perl_DBI_enables_SQL_Statement}
 BuildRequires:  perl(SQL::Statement) >= 1.402
 %endif
 # Tests
@@ -80,11 +104,25 @@ BuildRequires:  perl(lib)
 BuildRequires:  perl(overload)
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(Test::Simple) >= 0.90
+%if %{with perl_DBI_enables_optional_test}
 # Optional tests
 BuildRequires:  perl(Test::Pod) >= 1.00
 BuildRequires:  perl(Test::Pod::Coverage) >= 1.04
+%endif
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
+%if %{with perl_DBI_enables_Clone}
+Suggests:       perl(Clone) >= 0.34
+%endif
+%if %{with perl_DBI_enables_DB_File}
+Suggests:       perl(DB_File)
+%endif
 Requires:       perl(Math::BigInt)
+%if %{with perl_DBI_enables_MLDBM}
+Suggests:       perl(MLDBM)
+%endif
+%if %{with perl_DBI_enables_SQL_Statement}
+Suggests:       perl(SQL::Statement) >= 1.402
+%endif
 
 # Filter unwanted dependencies
 %{?perl_default_filter}
@@ -96,7 +134,7 @@ the Perl Language. The DBI API Specification defines a set of
 functions, variables and conventions that provide a consistent
 database interface independent of the actual database being used.
 
-%if %{with coro}
+%if %{with perl_DBI_enables_coro}
 %package Coro
 Summary:        Asynchronous DBD::Gofer stream transport using Coro
 Requires:       perl(:MODULE_COMPAT_%(eval "`perl -V:version`"; echo $version))
@@ -120,7 +158,7 @@ chmod 744 dbixs_rev.pl
 for F in dbixs_rev.pl ex/corogofer.pl; do
     perl -MExtUtils::MakeMaker -e "ExtUtils::MM_Unix->fixin(q{$F})"
 done
-%if %{without coro}
+%if %{without perl_DBI_enables_coro}
 rm lib/DBD/Gofer/Transport/corostream.pm
 sed -i -e '/^lib\/DBD\/Gofer\/Transport\/corostream.pm$/d' MANIFEST
 %endif
@@ -158,7 +196,7 @@ make test
 %{_bindir}/dbilogstrip
 %{perl_vendorarch}/*.p*
 %{perl_vendorarch}/DBD/
-%if %{with coro}
+%if %{with perl_DBI_enables_coro}
 %exclude %{perl_vendorarch}/DBD/Gofer/Transport/corostream.pm
 %endif
 %{perl_vendorarch}/DBI/
@@ -166,7 +204,7 @@ make test
 %{_mandir}/man1/*.1*
 %{_mandir}/man3/*.3*
 
-%if %{with coro}
+%if %{with perl_DBI_enables_coro}
 %files Coro
 %doc ex/corogofer.pl
 %{perl_vendorarch}/DBD/Gofer/Transport/corostream.pm
