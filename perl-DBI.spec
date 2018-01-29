@@ -30,7 +30,7 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.639
+Version:        1.640
 Release:        1%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
@@ -211,6 +211,9 @@ make test
 %endif
 
 %changelog
+* Mon Jan 29 2018 Jitka Plesnikova <jplesnik@redhat.com> - 1.640-1
+- 1.640 bump
+
 * Mon Jan 01 2018 Jitka Plesnikova <jplesnik@redhat.com> - 1.639-1
 - 1.639 bump
 
