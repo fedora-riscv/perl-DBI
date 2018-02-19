@@ -31,13 +31,14 @@
 
 Name:           perl-DBI
 Version:        1.640
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A database access API for perl
 Group:          Development/Libraries
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
 Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
 BuildRequires:  coreutils
+BuildRequires:  gcc
 BuildRequires:  glibc-common
 BuildRequires:  make
 BuildRequires:  perl-devel
@@ -211,6 +212,9 @@ make test
 %endif
 
 %changelog
+* Mon Feb 19 2018 Jitka Plesnikova <jplesnik@redhat.com> - 1.640-3
+- Add build-require gcc
+
 * Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.640-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
