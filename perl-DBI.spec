@@ -30,21 +30,21 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.640
-Release:        3%{?dist}
+Version:        1.641
+Release:        1%{?dist}
 Summary:        A database access API for perl
-Group:          Development/Libraries
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
 Source0:        http://www.cpan.org/authors/id/T/TI/TIMB/DBI-%{version}.tar.gz
 BuildRequires:  coreutils
+BuildRequires:  findutils
 BuildRequires:  gcc
 BuildRequires:  glibc-common
 BuildRequires:  make
 BuildRequires:  perl-devel
 BuildRequires:  perl-generators
 BuildRequires:  perl-interpreter
-BuildRequires:  perl(ExtUtils::MakeMaker)
+BuildRequires:  perl(ExtUtils::MakeMaker) >= 6.76
 BuildRequires:  perl(File::Find)
 BuildRequires:  perl(strict)
 BuildRequires:  sed
@@ -178,12 +178,11 @@ for F in lib/DBI/W32ODBC.pm lib/Win32/DBIODBC.pm; do
 done
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}"
+perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 OPTIMIZE="%{optflags}"
 make %{?_smp_mflags}
 
 %install
 make pure_install DESTDIR=%{buildroot}
-find %{buildroot} -type f -name .packlist -delete
 find %{buildroot} -type f -name '*.bs' -empty -delete
 %{_fixperms} '%{buildroot}'/*
 
@@ -212,6 +211,9 @@ make test
 %endif
 
 %changelog
+* Tue Mar 20 2018 Petr Pisar <ppisar@redhat.com> - 1.641-1
+- 1.641 bump
+
 * Mon Feb 19 2018 Jitka Plesnikova <jplesnik@redhat.com> - 1.640-3
 - Add build-require gcc
 
