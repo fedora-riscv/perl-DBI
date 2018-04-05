@@ -8,18 +8,21 @@
 %bcond_without perl_DBI_enables_coro
 %endif
 
-# Test with and suggest Clone Perl module for better multithreading
-%bcond_without perl_DBI_enables_Clone
-# Test with and suggest DB_File Perl module
-%bcond_without perl_DBI_enables_DB_File
-# Test with and suggest MLDBM Perl module for arbitrary mulicolumn databases
 %if 0%{?rhel}
+# Test with and suggest Clone Perl module for better multithreading
+%bcond_with perl_DBI_enables_Clone
+# Test with and suggest DB_File Perl module
+%bcond_with perl_DBI_enables_DB_File
+# Test with and suggest MLDBM Perl module for arbitrary mulicolumn databases
 %bcond_with perl_DBI_enables_MLDBM
-%else
-%bcond_without perl_DBI_enables_MLDBM
-%endif
 # Run optional tests
+%bcond_with perl_DBI_enables_optional_test
+%else
+%bcond_without perl_DBI_enables_Clone
+%bcond_without perl_DBI_enables_DB_File
+%bcond_without perl_DBI_enables_MLDBM
 %bcond_without perl_DBI_enables_optional_test
+%endif
 # Test with and suggest SQL::Statement Perl module for more serialization
 # formats
 # SQL::Statement is optional, and it is in build-cycle with DBI
