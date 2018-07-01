@@ -34,7 +34,7 @@
 
 Name:           perl-DBI
 Version:        1.641
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A database access API for perl
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
@@ -214,6 +214,9 @@ make test
 %endif
 
 %changelog
+* Sun Jul 01 2018 Jitka Plesnikova <jplesnik@redhat.com> - 1.641-3
+- Perl 5.28 re-rebuild of bootstrapped packages
+
 * Thu Jun 28 2018 Jitka Plesnikova <jplesnik@redhat.com> - 1.641-2
 - Perl 5.28 rebuild
 
