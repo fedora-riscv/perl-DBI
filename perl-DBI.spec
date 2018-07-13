@@ -34,7 +34,7 @@
 
 Name:           perl-DBI
 Version:        1.641
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A database access API for perl
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
@@ -214,6 +214,9 @@ make test
 %endif
 
 %changelog
+* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.641-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
 * Sun Jul 01 2018 Jitka Plesnikova <jplesnik@redhat.com> - 1.641-3
 - Perl 5.28 re-rebuild of bootstrapped packages
 
