@@ -33,8 +33,8 @@
 %endif
 
 Name:           perl-DBI
-Version:        1.642
-Release:        7%{?dist}
+Version:        1.643
+Release:        1%{?dist}
 Summary:        A database access API for perl
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
@@ -181,12 +181,12 @@ for F in lib/DBI/W32ODBC.pm lib/Win32/DBIODBC.pm; do
 done
 
 %build
-perl Makefile.PL INSTALLDIRS=vendor NO_PACKLIST=1 OPTIMIZE="%{optflags}" \
-                 NO_PERLLOCAL=1
-%make_build
+perl Makefile.PL INSTALLDIRS=vendor OPTIMIZE="%{optflags}" \
+  NO_PACKLIST=1 NO_PERLLOCAL=1
+%{make_build}
 
 %install
-%make_install
+%{make_install}
 find %{buildroot} -type f -name '*.bs' -empty -delete
 %{_fixperms} '%{buildroot}'/*
 
@@ -215,6 +215,9 @@ make test
 %endif
 
 %changelog
+* Wed Feb 05 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.643-1
+- 1.643 bump
+
 * Tue Feb 04 2020 Tom Stellard <tstellar@redhat.com> - 1.642-7
 - Spec file cleanups: Use make_build and make_install macros
 - https://docs.fedoraproject.org/en-US/packaging-guidelines/#_parallel_make
