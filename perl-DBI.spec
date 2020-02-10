@@ -34,7 +34,7 @@
 
 Name:           perl-DBI
 Version:        1.643
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A database access API for perl
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
@@ -99,6 +99,7 @@ BuildRequires:  perl(MLDBM)
 BuildRequires:  perl(SQL::Statement) >= 1.402
 %endif
 # Tests
+BuildRequires:  perl(blib)
 BuildRequires:  perl(B)
 BuildRequires:  perl(Benchmark)
 BuildRequires:  perl(Encode)
@@ -156,12 +157,12 @@ for F in lib/DBD/Gofer.pm; do
     touch -r "$F" "${F}.utf8"
     mv "${F}.utf8" "$F"
 done
-chmod 644 ex/*
-chmod 744 dbixs_rev.pl
 # Fix shell bangs
 for F in dbixs_rev.pl ex/corogofer.pl; do
     perl -MExtUtils::MakeMaker -e "ExtUtils::MM_Unix->fixin(q{$F})"
 done
+chmod 0644 ex/*
+chmod 0755 dbixs_rev.pl
 %if %{without perl_DBI_enables_coro}
 rm lib/DBD/Gofer/Transport/corostream.pm
 sed -i -e '/^lib\/DBD\/Gofer\/Transport\/corostream.pm$/d' MANIFEST
@@ -215,6 +216,9 @@ make test
 %endif
 
 %changelog
+* Mon Feb 10 2020 Petr Pisar <ppisar@redhat.com> - 1.643-2
+- Build-require blib for tests
+
 * Wed Feb 05 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.643-1
 - 1.643 bump
 
