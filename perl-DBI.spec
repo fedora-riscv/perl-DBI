@@ -34,7 +34,7 @@
 
 Name:           perl-DBI
 Version:        1.643
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        A database access API for perl
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
@@ -67,6 +67,7 @@ BuildRequires:  perl(DynaLoader)
 BuildRequires:  perl(Errno)
 BuildRequires:  perl(Exporter)
 BuildRequires:  perl(Fcntl)
+BuildRequires:  perl(FileHandle)
 BuildRequires:  perl(File::Basename)
 BuildRequires:  perl(File::Spec)
 BuildRequires:  perl(Getopt::Long)
@@ -121,6 +122,7 @@ Suggests:       perl(Clone) >= 0.34
 %if %{with perl_DBI_enables_DB_File}
 Suggests:       perl(DB_File)
 %endif
+Requires:       perl(FileHandle)
 Requires:       perl(Math::BigInt)
 %if %{with perl_DBI_enables_MLDBM}
 Suggests:       perl(MLDBM)
@@ -216,6 +218,9 @@ make test
 %endif
 
 %changelog
+* Thu Mar 12 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.643-3
+- Add BR: perl(FileHandle)
+
 * Mon Feb 10 2020 Petr Pisar <ppisar@redhat.com> - 1.643-2
 - Build-require blib for tests
 
