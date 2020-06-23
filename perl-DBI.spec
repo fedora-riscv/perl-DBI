@@ -34,7 +34,7 @@
 
 Name:           perl-DBI
 Version:        1.643
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        A database access API for perl
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
@@ -218,6 +218,9 @@ make test
 %endif
 
 %changelog
+* Tue Jun 23 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.643-4
+- Perl 5.32 rebuild
+
 * Thu Mar 12 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.643-3
 - Add BR: perl(FileHandle)
 
