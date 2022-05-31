@@ -34,7 +34,7 @@
 
 Name:           perl-DBI
 Version:        1.643
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        A database access API for perl
 License:        GPL+ or Artistic
 URL:            http://dbi.perl.org/
@@ -218,6 +218,9 @@ make test
 %endif
 
 %changelog
+* Tue May 31 2022 Jitka Plesnikova <jplesnik@redhat.com> - 1.643-12
+- Perl 5.36 rebuild
+
 * Fri Jan 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 1.643-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
