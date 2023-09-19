@@ -1,0 +1,4 @@
+summary: Upstream tests
+component: perl-DBI
+require: perl-DBI-tests
+test: /usr/libexec/perl-DBI/test
