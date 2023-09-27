@@ -1,0 +1,33 @@
+From 89f0d4cd38b83f0ee426a5fdf7d1ad5ea371c883 Mon Sep 17 00:00:00 2001
+From: "H.Merijn Brand - Tux" <linux@tux.freedom.nl>
+Date: Wed, 28 Oct 2020 15:03:48 +0100
+Subject: [PATCH] Fix for empty attributes in DSN
+
+dbm_type=SDBM_File;dbm_mldbm=;f_lockfile=.lck'
+                             ^
+would result in
+
+Odd number of elements in anonymous hash
+---
+ lib/DBD/File.pm | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/lib/DBD/File.pm b/lib/DBD/File.pm
+index f55076f..baffefa 100644
+--- a/lib/DBD/File.pm
++++ b/lib/DBD/File.pm
+@@ -112,8 +112,9 @@ sub connect
+     #
+     # Parsing on our own similar to parse_dsn to find attributes in 'dbname' parameter.
+     if ($dbname) {
+-	my @attrs = split /;/ => $dbname;
+-	my $attr_hash = { map { split /\s*=>?\s*|\s*,\s*/, $_} @attrs };
++	my $attr_hash = {
++	    map { (m/^\s* (\S+) \s*(?: =>? | , )\s* (\S*) \s*$/x) }
++	    split m/;/ => $dbname };
+ 	if (defined $attr_hash->{f_dir} && ! -d $attr_hash->{f_dir}) {
+ 	    my $msg = "No such directory '$attr_hash->{f_dir}";
+ 	    $drh->set_err (2, $msg);
+-- 
+2.41.0
+

@@ -1,0 +1,29 @@
+From c71b64a678bcd708c7b75ee2bef5a360c836444c Mon Sep 17 00:00:00 2001
+From: "H.Merijn Brand - Tux" <linux@tux.freedom.nl>
+Date: Wed, 28 Oct 2020 15:57:17 +0100
+Subject: [PATCH] Document the new behavior for f_dir
+
+These changes also warrant a version increase
+---
+ lib/DBD/File.pm | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/lib/DBD/File.pm b/lib/DBD/File.pm
+index baffefa..afbff26 100644
+--- a/lib/DBD/File.pm
++++ b/lib/DBD/File.pm
+@@ -1062,6 +1062,11 @@ directory) when the dbh attribute is set.
+ 
+   f_dir => "/data/foo/csv",
+ 
++If C<f_dir> is set to a non-existing location, the connection will fail.
++See CVE-2014-10401 for reasoning. Because of this, folders to use cannot
++be created after the connection, but must exist before the connection is
++initiated.
++
+ See L<KNOWN BUGS AND LIMITATIONS>.
+ 
+ =head4 f_dir_search
+-- 
+2.41.0
+
