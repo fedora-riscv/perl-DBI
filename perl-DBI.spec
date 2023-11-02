@@ -1,3 +1,5 @@
+%global perl_bootstrap 1
+
 # According to documentation, module using Coro is just:
 # A PROOF-OF-CONCEPT IMPLEMENTATION FOR EXPERIMENTATION.
 # Omit Coro support on bootsrap bacause perl-DBI is pulled in by core
@@ -34,7 +36,7 @@
 
 Name:           perl-DBI
 Version:        1.643
-Release:        18%{?dist}
+Release:        18.rv64~bootstrap%{?dist}
 Summary:        A database access API for perl
 License:        GPL-1.0-or-later OR Artistic-1.0-Perl
 URL:            http://dbi.perl.org/
